@@ -66,6 +66,17 @@
             </ul>
         </nav>
     </header>
+    {{> messages}}
+    {{# if errors }}
+    {{# each errors }}
+    <p class="error">{{ this.msg }}</p>
+    {{/each}}
+    {{/if}}
+    
+    
+    
+    
+
 <script type="text/javascript">
     let mainNav = document.getElementById("js-menu");
     let navBarToggle = document.getElementById("js-navbar-toggle");

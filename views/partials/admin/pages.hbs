@@ -1,0 +1,26 @@
+{{> admin/head_nav}} 
+
+<h2>Pages</h2>
+<a href="/admin/pages/add-pages">Add a new page</a>
+<br>
+<table>
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{# each pages}}
+        <tr>
+            <td>{{this.title}}</td>
+            <td><a href="/admin/pages/edit-page/{{this.slug}}">Edit</a></td>
+            <td><a href="/admin/pages/delete-page/{{this._id}}">Delete</a></td>
+        </tr>
+        {{/each}}
+    </tbody>
+    
+</table>
+
+{{> admin/footer}}

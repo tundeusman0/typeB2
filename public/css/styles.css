@@ -4,7 +4,9 @@
 footer{
     color:gray;
 }
-
+.error{
+  color:red;
+}
 
 /* NAVBAR */
 .navbar {

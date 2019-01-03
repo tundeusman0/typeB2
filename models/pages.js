@@ -6,7 +6,7 @@ var pageSchema = new Schema({
         type:String,
         required:true,
         trim: true,
-        minlength: 10,
+        minlength: 5,
     },
     slug:{
         type:String
@@ -14,12 +14,22 @@ var pageSchema = new Schema({
     content:{
         type:String
     },
-    sorting:{
-        type:Number,
-        required:true
-    }
+    // sorting:{
+    //     type:Number,
+    //     required:true
+    // }
 });
 
 let Page = mongoose.model('Page', pageSchema);
+// console.log(Page)
 
-module.exports.Page = Page
+// let newPage = new Page({
+//     title: "oyah gupaaaaaaa"
+// })
+// newPage.save().then((doc)=>{
+//     console.log(doc,'successful')
+// },(e)=>{
+//     console.log(e,'unable to save db')
+// })
+
+module.exports = Page

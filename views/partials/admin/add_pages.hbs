@@ -1,9 +1,10 @@
 {{> admin/head_nav}}
 
+
 <h2>Add a Page</h2>
 <a href="/admin/pages">Back to all pages</a>
 <br/>
-<form action="/admin/pages/add-pages">
+<form method="POST" action="/admin/pages/add-pages">
     <div>
         <label for="">Title</label>
         <input type="text" name="title" value="{{title}}" placeholder="title"/> 

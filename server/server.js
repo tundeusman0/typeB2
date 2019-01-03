@@ -1,11 +1,10 @@
 const express = require('express')
 const hbs = require('hbs')
-const {mongoose} = require('./../db/mongoose')
 const bodyParser = require('body-parser')
 const session = require('express-session')
-const { check, validationResult } = require('express-validator/check');
+const flash = require('connect-flash');
 
-mongoose
+
 const pages  = require('./../routes/pages')
 const admin_pages = require('./../routes/admin_pages')
 // path 
@@ -17,6 +16,7 @@ const partialsPath = path.join(__dirname,'/../views/partials')
 
 // register partials
 hbs.registerPartials(partialsPath)
+
 
 const app = express();
 // body-parser
@@ -31,24 +31,15 @@ app.use(session({
     saveUninitialized: true
 }))
 
-// expressValidator
-// app.post('/user', [
-    // username must be an email
-    // check('username').isEmail(),
-    // password must be at least 5 chars long
-    // check('password').isLength({ min: 5 })
-// ], (req, res) => {
-    // Finds the validation errors in this request and wraps them in an object with handy functions
-//     const errors = validationResult(req);
-//     if (!errors.isEmpty()) {
-//         return res.status(422).json({ errors: errors.array() });
-//     }
+app.use(flash());
+app.use(function (req, res, next) {
+    res.locals.sessionFlash = req.session.sessionFlash;
+    delete req.session.sessionFlash;
+    next();
+});
 
-//     User.create({
-//         username: req.body.username,
-//         password: req.body.password
-//     }).then(user => res.json(user));
-// });
+// app.use(expressValidator());
+// expressValidator
 
 // express messages
 // app.use(require('connect-flash')());
@@ -61,6 +52,8 @@ app.use(session({
 app.set('view engine','hbs')
 // set static path
 app.use(express.static(publicPath))
+
+// app.locals.errors = null
 
 app.use('/admin', admin_pages)
 app.use('/',pages)
