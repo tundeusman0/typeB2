@@ -6,18 +6,19 @@ var pageSchema = new Schema({
         type:String,
         required:true,
         trim: true,
-        minlength: 5,
+        minlength: 3,
     },
     slug:{
         type:String
     },
     content:{
-        type:String
+        type:String,
+        minlength: 5
     },
-    // sorting:{
-    //     type:Number,
-    //     required:true
-    // }
+    sorting:{
+        type:Number,
+        // required:true
+    }
 });
 
 let Page = mongoose.model('Page', pageSchema);

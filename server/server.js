@@ -1,6 +1,7 @@
 const express = require('express')
 const hbs = require('hbs')
 const bodyParser = require('body-parser')
+// const { mongoose } = require('./../db/mongoose');
 const session = require('express-session')
 const flash = require('connect-flash');
 
@@ -16,6 +17,16 @@ const partialsPath = path.join(__dirname,'/../views/partials')
 
 // register partials
 hbs.registerPartials(partialsPath)
+hbs.registerHelper("contains", function (value, array, options) {
+    array = (array instanceof Array) ? array : [array];
+    return (array.indexOf(value) > -1) ? options.fn(this) : "";
+});
+hbs.registerHelper('ifCond',(v1, v2, options)=> {
+    if (v1 === v2) {
+        return options.fn(this);
+    }
+    return options.inverse(this);
+});
 
 
 const app = express();
@@ -37,16 +48,6 @@ app.use(function (req, res, next) {
     delete req.session.sessionFlash;
     next();
 });
-
-// app.use(expressValidator());
-// expressValidator
-
-// express messages
-// app.use(require('connect-flash')());
-// app.use(function (req, res, next) {
-//     res.locals.messages = require('express-messages')(req, res);
-//     next();
-// });
 
 // set view engine
 app.set('view engine','hbs')
