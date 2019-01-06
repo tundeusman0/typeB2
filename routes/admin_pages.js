@@ -18,11 +18,6 @@ router.get('/pages', (req, res) => {
             pages
         })
     })
-    // Page.find({},(err,pages)=>{
-    //     res.render('partials/admin/pages.hbs', {
-    //         pages
-    //     })
-    // })
 })
 
 router.get('/pages/add-pages', (req, res) => {
@@ -142,6 +137,17 @@ router.post('/pages/edit-page/:slug',[
     }
 
 });
+
+router.get('/pages/delete-page/:id', (req, res) => {
+    let id = req.params.id
+    Page.findByIdAndDelete(id).then((deleted) => {
+        req.session.sessionFlash = {
+            type: 'info',
+            message: 'Page Deleted'
+        }
+        res.redirect('/admin/pages')
+    }, (err) => { console.log(err) })
+})
 
 // router.post('/carousel/add-carousel',()=>{})
 

@@ -46,11 +46,11 @@ table.gridtable td {
         >
             <td>{{this.title}}</td>
             <td><a href="/admin/pages/edit-page/{{this.slug}}">Edit</a></td>
-            {{#ifCond this.slug "home"}}
-            <td></td>
-            {{else}}
+            {{!-- {{#ifCond this.slug "home"}} --}}
+            {{!-- <td></td> --}}
+            {{!-- {{else}} --}}
             <td><a href="/admin/pages/delete-page/{{this._id}}">Delete</a></td>
-            {{/ifCond}}
+            {{!-- {{/ifCond}} --}}
         </tr>
         {{/each}}
     </tbody>
