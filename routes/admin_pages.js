@@ -101,6 +101,47 @@ router.post('/reorder-pages', (req,res) => {
         counting(count)
     }
 })
+router.get('/pages/edit-page/:slug', (req, res) => {
+    Page.findOne({ slug: req.params.slug }).then((page) => {
+        res.render('partials/admin/edit_pages.hbs', {
+            title: page.title,
+            slug: page.slug,
+            content: page.content,
+            id: page._id
+        })
+    }, (err) => {
+        console.log(err)
+    })
+    
+})
+
+router.post('/pages/edit-page/:slug',[
+    check('title').isLength({ min: 3 }).trim().withMessage('Title empty. Must be atleast 3 characters'),
+    check('content').isLength({ min: 5 }).trim().withMessage('Content empty. Must be atleast 5 characters')
+], (req, res) => {
+    let title = req.body.title
+    let slug = req.body.title.replace(/\s+/g, '-').toLowerCase()
+    slug === "" && (slug = title.replace(/\s+/g, '-').toLowerCase())
+    let content = req.body.content
+    let id = req.body.id
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        res.render('partials/admin/edit_pages.hbs', {
+            errors: errors.array(), title, slug, content,id
+        })
+    } else {
+        Page.findByIdAndUpdate( id , { $set: { title, slug, content } }, { multi: true }).then((page)=>{
+            console.log(`Page Edited`)
+            req.session.sessionFlash = {
+                type: 'info',
+                message: 'Page Edited'
+            }
+            res.redirect('/admin/pages/edit-page/'+page.slug)
+        },(err)=>{})
+    }
+
+});
 
 // router.post('/carousel/add-carousel',()=>{})
 
