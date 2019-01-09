@@ -1,0 +1,100 @@
+<%- include('../layout/admin_header.ejs') %>
+
+
+<h2>Pages</h2>
+<a href="/admin/pages/add-pages">Add a new page</a>
+<br>
+
+<style type="text/css">
+    table.gridtable {
+        font-family: verdana, arial, sans-serif;
+        font-size: 11px;
+        color: #333333;
+        border-width: 1px;
+        border-color: #666666;
+        border-collapse: collapse;
+    }
+
+    table.gridtable th {
+        border-width: 1px;
+        padding: 8px;
+        border-style: solid;
+        border-color: #666666;
+        background-color: #dedede;
+    }
+
+    table.gridtable td {
+        border-width: 1px;
+        padding: 8px;
+        border-style: solid;
+        border-color: #666666;
+        background-color: #ffffff;
+    }
+</style>
+
+
+<table class="gridtable">
+    <thead>
+        <tr class="home">
+            <th>Title</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    
+    <tbody
+    ondrop="drop(event,this)" ondragover="allowDrop(event)">
+        <% pages.forEach(function(page){ -%>
+        <% if(page.slug === "home"){ -%>
+            <tr id="<%= page._id %>" class="<%= page.slug %>" draggable="return false">
+                <td>
+                    <%= page.title %>
+                </td>
+                <td></td>
+                <!-- <td><a href="/admin/pages/edit-page/<%= page.slug %>">Edit</a></td> -->
+                <td><a href="/admin/pages/delete-page/<%= page._id %>">Delete</a></td>
+            <% }else{ -%>
+                <tr id="<%= page._id %>" class="<%= page.slug %>" draggable="true" ondragstart="drag(event)" ondrop="return false"
+                    ondragover="return false">
+                    <td>
+                        <%= page.title %>
+                    </td>
+                    <td><a href="/admin/pages/edit-page/<%= page.slug %>">Edit</a></td>
+                    <td><a href="/admin/pages/delete-page/<%= page._id %>">Delete</a></td>
+                </tr>
+        <%  } -%>
+            
+        <% }); -%>
+            </tbody>
+</table>
+
+<script>
+    function allowDrop(ev) {
+        ev.preventDefault();
+        ev.stopPropagation()
+    }
+
+    function drag(ev) {
+        ev.dataTransfer.setData("text", ev.target.id);
+    }
+    function drop(ev, el) {
+        ev.preventDefault();
+        var data = ev.dataTransfer.getData("text");
+        el.appendChild(document.getElementById(data));
+        var trs = document.querySelectorAll('tbody tr')
+        var trId = []
+        for (let tr of trs) {
+            trId.push(tr.id)
+        }
+        var http = new XMLHttpRequest();
+        http.open("POST", "/admin/reorder-pages", true);
+        http.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        http.send(JSON.stringify({ trId }));
+    }
+    function noAllowDrop(ev) {
+        ev.stopPropagation();
+    }
+    // var allTr = document.querySelectorAll('tr')
+</script>
+
+<%- include('../layout/footer.ejs') %>

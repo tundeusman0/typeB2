@@ -15,9 +15,27 @@
             </span>
             <a href="#" class="logo">logo</a>
             <ul class="main-nav" id="js-menu">
-                <li>
-                    <a href="#" class="nav-link nav-link-ltr">Home</a>
+                {{@pagesC}}
+                {{# each pagesC}}
+                {{!-- {{# if this.subs}}
+                <li class="dropdown">
+                    <a href="#" class="nav-link">{{this.title}}</a>
+                    {{# each this.subs}}
+                    <div class="dropdown-content">
+                        <a href="#">{{this.title}}</a>
+                    </div>
                 </li>
+                    {{/each}}
+                    {{ else}} --}}
+                <li>
+                    <a href="#" class="nav-link nav-link-ltr">{{this.title}}</a>
+                </li>
+                {{!-- {{/if}} --}}
+                {{/each}}
+                
+                {{!-- <li>
+                    <a href="#" class="nav-link nav-link-ltr">Home</a>
+                </li> --}}
                 <li class="dropdown">
                     <a href="#" class="nav-link">Learning</a>
                     <div class="dropdown-content">

@@ -1,23 +1,41 @@
 const express = require('express');
 const router = express.Router();
-const { mongoose } = require('./../db/mongoose');
-const { MongoClient, ObjectId } = require('mongodb');
+// const { mongoose } = require('./../db/mongoose');
+// const { MongoClient, ObjectId } = require('mongodb');
 const { check, validationResult } = require('express-validator/check');
-const Page = require('./../models/pages')
-var async = require('async');
+const {Page} = require('./../models/pages')
 
 router.get('/', (req, res) => {
-    
     res.send('admin pages')
     
 })
+// Page.find({}, (err, doc) => {
+//     console.log(doc)
+// })
 
 router.get('/pages', (req, res) => {
-    Page.find({}).sort({sorting:1}).exec((err,pages)=>{
-        res.render('partials/admin/pages.hbs', {
-            pages
-        })
-    })
+    // Page.find({}).sort({ sorting: 1 }).exec((err, pages) => {
+    //     // res.send('okay')
+    //     console.log(JSON.stringify(pages, undefined, 2))
+    // })
+    // Page.find({}).sort({ sorting: 'asc' }).then((pages) => {
+    //     res.send('okay')
+    //     console.log(JSON.stringify(pages, undefined, 2))
+    // })
+    Page.find({}).sort({ sorting: 1 }).exec(function (err, pages) {
+        res.render('admin/pages', {
+            pages: pages
+        });
+        // console.log(JSON.stringify(pages, undefined, 2))
+        // console.log('-------------')
+    });
+    // Page.find({}).sort({sorting:1}).exec((err,pages)=>{
+    //     res.render('admin/pages', {
+    //         pages
+    //     })
+    //     console.log(JSON.stringify(pages,undefined,2))
+    //     console.log('-------------')
+    // })
 })
 
 router.get('/pages/add-pages', (req, res) => {
@@ -25,11 +43,7 @@ router.get('/pages/add-pages', (req, res) => {
     let slug = req.body.slug
     let content = req.body.content
     if (typeof slug){
-    req.session.sessionFlash = {
-        type: 'error',
-        message: 'page slug already exists, choose another one.'
-    }
-    res.render('partials/admin/add_pages.hbs', {
+        res.render('admin/add_pages', {
         title, slug, content
     })
 }
@@ -51,21 +65,14 @@ router.post('/pages/add-pages', [
     }else{
         Page.findOne({slug},(err,page)=>{
             if(page)  {
-                console.log(`page slug already exists, choose another one`)
-                // req.session.sessionFlash = {
-                //     type: 'error',
-                //     message: 'page slug already exists, choose another one.'
-                // }
-                res.render('partials/admin/add_pages.hbs', { title, slug, content})
+                req.flash('success', 'page slug already exists, choose another one');
+                res.render('admin/add_pages', { title, slug, content})
             }else{
                 let page = new Page({ title, slug, content,sorting:0})
-                Page.findOne({ slug }, (err, page) => {console.log(page)})
+                // Page.findOne({ slug }, (err, page) => {console.log(page)})
             page.save().then((doc) => {
                 console.log(`Page added`)
-                req.session.sessionFlash = {
-                    type: 'info',
-                    message: 'Page added'
-                }
+                req.flash('success', 'Page added');
                 res.redirect('/admin/pages')
             }, (error) => {
                 console.log('no data', error)
@@ -85,20 +92,19 @@ router.post('/reorder-pages', (req,res) => {
         let id = ids[i]
         count++;
         function counting (count) {
-            Page.findById(id, function (err, page) {
-                page.sorting = count;
-                page.save(function (err) {
-                    if (err)
-                        return console.log(err)
-                })
-            })
+            Page.findByIdAndUpdate(id, { $set: { sorting:count} }, { new: true })
+            .then((pages) => {
+                // console.log(`Page re-arranged`)
+                // req.flash('success', 'Page re-arranged');
+            }, (err) => { }).catch((e)=>console.log(e))
         }
         counting(count)
-    }
+    }   
 })
+
 router.get('/pages/edit-page/:slug', (req, res) => {
     Page.findOne({ slug: req.params.slug }).then((page) => {
-        res.render('partials/admin/edit_pages.hbs', {
+        res.render('admin/edit_pages', {
             title: page.title,
             slug: page.slug,
             content: page.content,
@@ -126,12 +132,9 @@ router.post('/pages/edit-page/:slug',[
             errors: errors.array(), title, slug, content,id
         })
     } else {
-        Page.findByIdAndUpdate( id , { $set: { title, slug, content } }, { multi: true }).then((page)=>{
+        Page.findByIdAndUpdate( id , { $set: { title, slug, content } }, { new: true }).then((page)=>{
             console.log(`Page Edited`)
-            req.session.sessionFlash = {
-                type: 'info',
-                message: 'Page Edited'
-            }
+            req.flash('success', 'Page Edited');
             res.redirect('/admin/pages/edit-page/'+page.slug)
         },(err)=>{})
     }
@@ -141,10 +144,7 @@ router.post('/pages/edit-page/:slug',[
 router.get('/pages/delete-page/:id', (req, res) => {
     let id = req.params.id
     Page.findByIdAndDelete(id).then((deleted) => {
-        req.session.sessionFlash = {
-            type: 'info',
-            message: 'Page Deleted'
-        }
+        req.flash('success', 'Page Deleted');
         res.redirect('/admin/pages')
     }, (err) => { console.log(err) })
 })
