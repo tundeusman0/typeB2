@@ -1,0 +1,94 @@
+<%- include('../layout/admin_header.ejs') %>
+
+
+<h2>Carousels Images</h2>
+<a href="/admin/carousel/add-carousel">Add a new carousels Images</a>
+<br>
+
+<style type="text/css">
+    table.gridtable {
+        font-family: verdana, arial, sans-serif;
+        font-size: 11px;
+        color: #333333;
+        border-width: 1px;
+        border-color: #666666;
+        border-collapse: collapse;
+    }
+
+    table.gridtable th {
+        border-width: 1px;
+        padding: 8px;
+        border-style: solid;
+        border-color: #666666;
+        background-color: #dedede;
+    }
+
+    table.gridtable td {
+        border-width: 1px;
+        padding: 8px;
+        border-style: solid;
+        border-color: #666666;
+        background-color: #ffffff;
+    }
+</style>
+
+
+<table class="gridtable">
+    <thead>
+        <tr class="home">
+            <th>Title</th>
+            <th>desc</th>
+            <th>Image</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    
+    <tbody
+    ondrop="drop(event,this)" ondragover="allowDrop(event)">
+        <% carousel.forEach(function(img){ %>
+                <tr id="<%= img._id %>" class="<%= img.slug %>" draggable="true" ondragstart="drag(event)" ondrop="return false"
+                    ondragover="return false">
+                    <td><%= img.title %></td>
+                    <td><%= img.desc %></td>
+                    <td>
+                    <img src="/images/carouselImages/<%= img._id %>/<%= img.image %>" style="width:20%;heigth:20%">
+                    </td>
+                    <td><a href="/admin/carousel/edit-carousel/<%= img.slug %>">Edit</a></td>
+                    <td><a href="/admin/carousel/delete-carousel/<%= img._id %>">Delete</a></td>
+                </tr>
+        <% }); %>
+            </tbody>
+</table>
+
+<script>
+    function allowDrop(ev) {
+        ev.preventDefault();
+        ev.stopPropagation()
+    }
+
+    function drag(ev) {
+        ev.dataTransfer.setData("text", ev.target.id);
+    }
+    function drop(ev, el) {
+        ev.preventDefault();
+        var data = ev.dataTransfer.getData("text");
+        el.appendChild(document.getElementById(data));
+        var trs = document.querySelectorAll('tbody tr')
+        var trId = []
+        for (let tr of trs) {
+            trId.push(tr.id)
+        }
+        // console.log(trId)
+        var http = new XMLHttpRequest();
+        http.open("POST", "/admin/reorder-carousel", true);
+        http.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        http.send(JSON.stringify({ trId }));
+    }
+    function noAllowDrop(ev) {
+        ev.stopPropagation();
+    }
+    // var allTr = document.querySelectorAll('tr')
+</script>
+
+<%- include('../layout/footer.ejs') %>

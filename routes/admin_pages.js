@@ -1,7 +1,5 @@
 const express = require('express');
 const router = express.Router();
-// const { mongoose } = require('./../db/mongoose');
-// const { MongoClient, ObjectId } = require('mongodb');
 const { check, validationResult } = require('express-validator/check');
 const {Page} = require('./../models/pages')
 
@@ -9,33 +7,14 @@ router.get('/', (req, res) => {
     res.send('admin pages')
     
 })
-// Page.find({}, (err, doc) => {
-//     console.log(doc)
-// })
+
 
 router.get('/pages', (req, res) => {
-    // Page.find({}).sort({ sorting: 1 }).exec((err, pages) => {
-    //     // res.send('okay')
-    //     console.log(JSON.stringify(pages, undefined, 2))
-    // })
-    // Page.find({}).sort({ sorting: 'asc' }).then((pages) => {
-    //     res.send('okay')
-    //     console.log(JSON.stringify(pages, undefined, 2))
-    // })
-    Page.find({}).sort({ sorting: 1 }).exec(function (err, pages) {
+    Page.find({}).sort({sorting:1}).exec((err,pages)=>{
         res.render('admin/pages', {
-            pages: pages
-        });
-        // console.log(JSON.stringify(pages, undefined, 2))
-        // console.log('-------------')
-    });
-    // Page.find({}).sort({sorting:1}).exec((err,pages)=>{
-    //     res.render('admin/pages', {
-    //         pages
-    //     })
-    //     console.log(JSON.stringify(pages,undefined,2))
-    //     console.log('-------------')
-    // })
+            pages
+        })
+    })
 })
 
 router.get('/pages/add-pages', (req, res) => {
@@ -59,7 +38,7 @@ router.post('/pages/add-pages', [
     let content= req.body.content
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        res.render('partials/admin/add_pages.hbs', {
+        res.render('admin/add_pages', {
             errors: errors.array(), title, slug, content
         })
     }else{
@@ -73,6 +52,7 @@ router.post('/pages/add-pages', [
             page.save().then((doc) => {
                 console.log(`Page added`)
                 req.flash('success', 'Page added');
+                // res.redirect('admin/pages')
                 res.redirect('/admin/pages')
             }, (error) => {
                 console.log('no data', error)
@@ -128,14 +108,14 @@ router.post('/pages/edit-page/:slug',[
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        res.render('partials/admin/edit_pages.hbs', {
+        res.render('admin/edit_pages', {
             errors: errors.array(), title, slug, content,id
         })
     } else {
         Page.findByIdAndUpdate( id , { $set: { title, slug, content } }, { new: true }).then((page)=>{
             console.log(`Page Edited`)
             req.flash('success', 'Page Edited');
-            res.redirect('/admin/pages/edit-page/'+page.slug)
+            res.redirect('/admin/pages/edit-page/' + slug)
         },(err)=>{})
     }
 

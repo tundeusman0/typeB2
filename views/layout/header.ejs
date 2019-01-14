@@ -1,0 +1,57 @@
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>okay</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<body>
+    <header>
+        <nav class="navbar">
+            <span class="navbar-toggle" id="js-navbar-toggle">
+                <i class="fas fa-bars"></i>
+            </span>
+            <a href="#" class="logo">logo</a>
+            <ul class="main-nav" id="js-menu">
+                <% for(let page of pages){ -%>
+                <%  if(page.subs){ -%>
+                        <li class="dropdown">
+                            <a href="#" class="nav-link"><%= page.title %></a>
+                                <div class="dropdown-content">
+                        <% for(let sub of page.subs){ -%>
+                                    <a href="#"><%= sub.title %></a>
+                        <% } -%>
+                                </div>
+                            </li>
+                    <% }else{ -%>
+                        <li>
+                            <a href="#" class="nav-link nav-link-ltr"><%= page.title %></a>
+                        </li>
+                        
+                    <% } -%>
+                <% } -%>
+            </ul>
+        </nav>
+    </header>
+    <% if(errors) {%>
+    <% errors.forEach(function(error){ -%>
+        <p class="error"><%= error.msg %></p> 
+    <% })-%>
+    <% } %>
+
+
+
+
+
+
+    <script type="text/javascript">
+        let mainNav = document.getElementById("js-menu");
+        let navBarToggle = document.getElementById("js-navbar-toggle");
+
+        navBarToggle.addEventListener("click", function () {
+            mainNav.classList.toggle("active");
+        });
+    </script>

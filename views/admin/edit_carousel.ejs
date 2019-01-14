@@ -1,0 +1,57 @@
+<%- include('../layout/admin_header.ejs') %>
+
+<h2>Edit Carousel</h2>
+<a href="/admin/carousel">Back to all carousel</a>
+
+<br>
+<form method="POST" action="/admin/carousel/edit-carousel/<%= slug %>" enctype="multipart/form-data">
+    <div>
+        <label for="">Title</label>
+        <input type="text" name="title" value="<%= title %>" placeholder="title" />
+    </div>
+    <div>
+        <label for="">slug</label>
+        <input type="text" name="slug" value="<%= slug %>" placeholder="slug" />
+    </div>
+    <div>
+        <label for="">desc</label>
+        <textarea name="desc" id="" cols="30" rows="10" placeholder="desc"><%= desc %></textarea>
+    </div>
+    <div>
+        <label for="">image</label>
+        <input id="input" type="file" name="image" placeholder="image" onchange="showMyImage(this)"/>
+
+        <img id="output" src="/images/carouselImages/<%= id %>/<%= image %>" alt="">
+    </div>
+
+    <input type="hidden" name="cimage" id="" value="<%= image %>" />
+    <input type="hidden" name="id" id="" value="<%= id %>" />
+    <button>Submit</button>
+</form>
+
+<%- include('../layout/footer.ejs') %>
+
+<script>
+
+  function showMyImage(fileInput) {
+        var files = fileInput.files;
+        for (var i = 0; i < files.length; i++) {           
+            var file = files[i];
+            var imageType = /image.*/;     
+            if (!file.type.match(imageType)) {
+                continue;
+            }           
+            var img=document.getElementById("output");            
+            img.file = file;    
+            var reader = new FileReader();
+            reader.onload = (function(aImg) { 
+                return function(e) { 
+                    aImg.src = e.target.result;
+                    aImg.setAttribute('style',"width:50%;heigth=20%") 
+                }; 
+            })(img);
+            reader.readAsDataURL(file);
+        }    
+    }
+
+</script>

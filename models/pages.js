@@ -28,7 +28,7 @@ var pageSchema = new Schema({
     },
     sorting:{
         type:Number,
-        // required:true
+        required:true
     }
 });
 
