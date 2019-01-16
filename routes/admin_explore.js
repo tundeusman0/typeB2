@@ -93,7 +93,7 @@ router.post('/reorder-explore', (req, res) => {
         let id = ids[i]
         count++;
         function counting(count) {
-            explore.findByIdAndUpdate(id, { $set: { sorting: count } }, { new: true })
+            Explore.findByIdAndUpdate(id, { $set: { sorting: count } }, { new: true })
                 .then((explore) => {
                     // console.log(`explore re-arranged`)
                     // req.flash('success', 'explore re-arranged');

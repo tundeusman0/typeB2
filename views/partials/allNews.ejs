@@ -1,33 +1,34 @@
+<%- include('../layout/header.ejs') %>
+
 <div class="container">
-    <h2>Read the School news</h2>
-    <p>This are the news we have for you</p><br>
+    <h2>Nested Media Objects</h2>
+    <p>Media objects can also be nested (a media object inside a media object):</p><br>
             <div class="media">
-            <% news.forEach(function(img,index){ %>
-                <% if(index === 0 ){ %>
                 <div class="media-left">
                     <img src="/images/newsImages/<%= news[0]._id %>/<%= news[0].image %>" class="media-object" style="width:45px">
                 </div>
                 <div class="media-body">
-                    <h4 class="media-heading"><%= news[0].title %><small><i><%= news[0].created %></i></small></h4>
+                    <h4 class="media-heading"><%= news[0].title %> <small><i><%= news[0].created %></i></small></h4>
                     <a href="/news/<%= news[0].slug %>" target="_blank">                    
                     <p><%= news[0].content %></p>
                     </a>
-                        <% }else if(index > 0 && index < 4 ){ %>
+                    <% news.forEach(function(img,index){ %>
+                         <% if(index > 0){ %> 
                         <div class="media">
                                 <div class="media-left">
                                     <img src="/images/newsImages/<%= img._id %>/<%= img.image %>" class="media-object" style="width:45px">
                                 </div>
                                 <div class="media-body">
-                                    <h4 class="media-heading"><%= img.title %><small><i><%= img.created %></i></small></h4>
+                                    <h4 class="media-heading"><%= img.title %> <small><i><%= img.created %></i></small></h4>
                                     <a href="/news/<%= img.slug %>" target="_blank">                    
                                     <p><%= img.content %></p>
                                     </a>
                                 </div>
                         </div>
-                        <% } %>
-        <% }); %>
-            </div>
-</div> 
-            <a href="/news" target="_blank">Read All news</a>
+                        <% } %> 
+                    <% }); %>
+                </div>
+            </div> 
 
+<%- include('../layout/footer.ejs') %>
     
