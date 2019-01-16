@@ -8,10 +8,12 @@ const fileUpload = require('express-fileupload')
 const { Page } = require('./../models/pages')
 const { Carousel } = require('./../models/carousel')
 const { NoteAboutSch } = require('../models/noteAboutSch')
+const { Explore } = require('../models/explore')
 const pages  = require('./../routes/pages')
 const admin_pages = require('./../routes/admin_pages')
 const admin_carousel = require('./../routes/admin_carousel')
 const admin_aboutSch = require('./../routes/admin_aboutSch')
+const admin_explore = require('./../routes/admin_explore')
 const { mongoose } = require('./../db/mongoose');
 
 // path 
@@ -66,6 +68,9 @@ Page.find({}).sort({ sorting: 1 }).then((pages) => {
 NoteAboutSch.find({}).sort({ sorting: 1 }).then((noteAbtSch) => {
     app.locals.noteAbtSch = noteAbtSch
 }, (err) => { console.log(err) })
+Explore.find({}).sort({ sorting: 1 }).then((explore) => {
+    app.locals.explore = explore
+}, (err) => { console.log(err) })
 
 app.use(function (req, res, next) {
     Carousel.find({}).sort({ sorting: 1 }).then((carousel) => {
@@ -77,6 +82,9 @@ app.use(function (req, res, next) {
     }, (err) => { console.log(err) })
     NoteAboutSch.find({}).sort({ sorting: 1 }).then((noteAbtSch) => {
         app.locals.noteAbtSch = noteAbtSch
+    }, (err) => { console.log(err) })
+    Explore.find({}).sort({ sorting: 1 }).then((explore) => {
+        app.locals.explore = explore
     }, (err) => { console.log(err) })
     next();
 });
@@ -94,11 +102,26 @@ app.get('/about_school/noteAbtSch/:slug', (req, res) => {
     })
 
 })
+app.get('/explore/:slug', (req, res) => {
+    Explore.findOne({ slug: req.params.slug }).then((explore) => {
+        res.render('partials/explores', {
+            title: explore.title,
+            content: explore.content,
+            image: explore.image,
+            // slug: explore.slug,
+            id: explore.id
+        })
+    }, (err) => {
+        console.log(err)
+    })
+
+})
 
 app.use('/', pages)
 app.use('/admin', admin_pages)
 app.use('/admin', admin_carousel)
 app.use('/admin', admin_aboutSch)
+app.use('/admin', admin_explore)
 
 app.listen(8000,()=>{
     console.log('server is on')

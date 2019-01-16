@@ -51,8 +51,15 @@ router.post('/about_school/add-noteAbtSch',
             req.flash('error', 'Please enter an image for noteAboutSch');
             res.render('admin/add_noteAbtSch', { title, content, slug })
         } else {
-            NoteAboutSch.findOne({ slug }, (err, noteAbtSch) => {
-                if (noteAbtSch) {
+            NoteAboutSch.find({}).then((noteAbtSch)=>{
+            // }).catch((err)=>{console.log(err)})
+            // NoteAboutSch.findOne({ slug }, (err, noteAbtSch) => {
+                // console.log(noteAbtSch)
+                if(noteAbtSch.length === 4){
+                    req.flash('error', 'add_noteAbtSch already 4 in the database, delete one to choose another one');
+                    res.render('admin/add_noteAbtSch', { title, slug, content })
+                }
+                else if (!noteAbtSch.filter((note)=>note.slug === slug)) {
                     req.flash('error', 'add_noteAbtSch slug already exists, choose another one');
                     res.render('admin/add_noteAbtSch', { title, slug, content })
                 } else {
@@ -114,22 +121,6 @@ router.get('/about_school/edit-noteAbtSch/:slug', (req, res) => {
     })
 
 })
-// router.get('/about_school/noteAbtSch/:slug', (req, res) => {
-//     console.log(req.params.slug)
-//     NoteAboutSch.findOne({ slug: req.params.slug }).then((noteAbtSch) => {
-//         console.log(noteAbtSch)
-//         res.render('partials/AboutSch', {
-//             title: noteAbtSch.title,
-//             content: noteAbtSch.content,
-//             image: noteAbtSch.image,
-//             // slug: noteAbtSch.slug,
-//             id: noteAbtSch.id
-//         })
-//     }, (err) => {
-//         console.log(err)
-//     })
-
-// })
 
 
 router.post('/about_school/edit-noteAbtSch/:slug',

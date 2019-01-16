@@ -2,12 +2,9 @@
     <fieldset>
         <legend>Explore TypeB</legend>
         <div class="container">
-            <button class="btn">Button</button>
-            <button class="btn">Button</button>
-            <button class="btn">Button</button>
-            <button class="btn">Button</button>
-            <button class="btn">Button</button>
-            <button class="btn">Button</button>
+        <% explore.forEach(function(img){ %>
+            <a href="/explore/<%= img.slug %>" target="_blank"><%= img.title %></a>
+        <% }); %>
             
         </div>
     </fieldset>
