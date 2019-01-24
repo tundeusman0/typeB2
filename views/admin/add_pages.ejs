@@ -1,7 +1,13 @@
 <%- include('../layout/header.ejs') %>
 
+<div class="admin-addpages">
+
+
 <h2>Add a Page</h2>
-<a href="/admin/pages">Back to all pages</a>
+<div class="back-to-pages">
+<a href="/admin/pages"><i class="fas fa-arrow-left"></i> Back to all pages</a>
+</div>
+<br />
 <br />
 <form method="POST" action="/admin/pages/add-pages">
     <div>
@@ -18,5 +24,7 @@
     </div>
     <button>Submit</button>
 </form>
+    
+</div>
 
 <%- include('../layout/footer.ejs') %>

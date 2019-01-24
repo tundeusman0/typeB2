@@ -1,18 +1,17 @@
-<h2>School  Slideshow</h2>
-
-
 <div class="slideshow-container">
-    <div class="numbertext">3 / 3</div>
-        <% carousel.forEach(function(img){ %>
+
+    <!-- <div class="numbertext"><%=  %>/<%= carousel.length %></div>-->
+
+        <% carousel.forEach(function(img,index){ %>
     <div class="mySlides fade">
-        <img src="/images/carouselImages/<%= img._id %>/<%= img.image %>" style="width:100%;height:10%">
-        <div class="title"><%= img.title %></div>
+        <img src="/images/carouselImages/<%= img._id %>/<%= img.image %>" >
+        <div class="Ctitle"><%= img.title %></div>
         <div class="text"><%= img.desc %></div>
     </div>
         <% }); %>
 
 </div>
-<div style="text-align:center">
+<div class="dotDiv" style="text-align:center">
     <% carousel.forEach(function(img){ %>
         <span class="dot"></span>
     <% }); %>
@@ -34,10 +33,10 @@ function showSlides() {
   slideIndex++;
   if (slideIndex > slides.length) {slideIndex = 1}    
   for (i = 0; i < dots.length; i++) {
-    dots[i].className = dots[i].className.replace(" active", "");
+    dots[i].className = dots[i].className.replace(" activeDot", "");
   }
   slides[slideIndex-1].style.display = "block";  
-  dots[slideIndex-1].className += " active";
+  dots[slideIndex-1].className += " activeDot";
   setTimeout(showSlides, 4000); // Change image every 4 seconds
 }
     

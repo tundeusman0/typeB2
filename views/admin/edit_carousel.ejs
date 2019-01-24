@@ -1,24 +1,26 @@
 <%- include('../layout/admin_header.ejs') %>
 
 <h2>Edit Carousel</h2>
-<a href="/admin/carousel">Back to all carousel</a>
+<div class="back-to-pages">
+<a href="/admin/carousel"><i class="fas fa-arrow-left"></i> Back to all carousel</a>
+</div>
 
 <br>
 <form method="POST" action="/admin/carousel/edit-carousel/<%= slug %>" enctype="multipart/form-data">
     <div>
-        <label for="">Title</label>
+        <label for="">TITLE</label> <br>
         <input type="text" name="title" value="<%= title %>" placeholder="title" />
     </div>
     <div>
-        <label for="">slug</label>
+        <label for="">SLUG</label> <br>
         <input type="text" name="slug" value="<%= slug %>" placeholder="slug" />
     </div>
     <div>
-        <label for="">desc</label>
+        <label for="">DESC</label> <br>
         <textarea name="desc" id="" cols="30" rows="10" placeholder="desc"><%= desc %></textarea>
     </div>
     <div>
-        <label for="">image</label>
+        <label for="">IMAGE</label> <br>
         <input id="input" type="file" name="image" placeholder="image" onchange="showMyImage(this)"/>
 
         <img id="output" src="/images/carouselImages/<%= id %>/<%= image %>" alt="">
@@ -47,7 +49,7 @@
             reader.onload = (function(aImg) { 
                 return function(e) { 
                     aImg.src = e.target.result;
-                    aImg.setAttribute('style',"width:50%;heigth=20%") 
+                    aImg.setAttribute('style',"width:10%;height=10%") 
                 }; 
             })(img);
             reader.readAsDataURL(file);

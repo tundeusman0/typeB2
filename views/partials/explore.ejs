@@ -1,11 +1,11 @@
-<form>
-    <fieldset>
-        <legend>Explore TypeB</legend>
-        <div class="container">
+<div>
+    <fieldset background="/images/std-gist.jpg">
+        <legend class="exploreheader" align="center">Explore TypeB</legend>
+        <div class="explore" >
         <% explore.forEach(function(img){ %>
-            <a href="/explore/<%= img.slug %>" target="_blank"><%= img.title %></a>
+            <a href="/explore/<%= img.slug %>" target="_blank" class="exploreElement"><%= img.title %></a>
         <% }); %>
             
         </div>
     </fieldset>
-</form>
+</div>

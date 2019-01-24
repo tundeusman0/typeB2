@@ -3,19 +3,20 @@ const bodyParser = require('body-parser')
 const session = require('express-session')
 const flash = require('connect-flash');
 const fileUpload = require('express-fileupload')
-// const busboy = require('connect-busboy');
 
 const { Page } = require('./../models/pages')
 const { Carousel } = require('./../models/carousel')
 const { NoteAboutSch } = require('../models/noteAboutSch')
 const { Explore } = require('../models/explore')
 const { News } = require('../models/news')
+const { Achievements } = require('../models/achievements')
 const pages  = require('./../routes/pages')
 const admin_pages = require('./../routes/admin_pages')
 const admin_carousel = require('./../routes/admin_carousel')
 const admin_aboutSch = require('./../routes/admin_aboutSch')
 const admin_explore = require('./../routes/admin_explore')
 const admin_news = require('./../routes/admin_news')
+const admin_achievements = require('./../routes/admin_achievements')
 const { mongoose } = require('./../db/mongoose');
 
 // path 
@@ -73,12 +74,14 @@ NoteAboutSch.find({}).sort({ sorting: 1 }).then((noteAbtSch) => {
 Explore.find({}).sort({ sorting: 1 }).then((explore) => {
     app.locals.explore = explore
 }, (err) => { console.log(err) })
+Achievements.find({}).sort({ sorting: 1 }).then((achievements) => {
+    app.locals.achievements = achievements
+}, (err) => { console.log(err) })
 
 app.use(function (req, res, next) {
     Carousel.find({}).sort({ sorting: 1 }).then((carousel) => {
         app.locals.carousel = carousel
     }, (err) => { console.log(err) })
-
     Page.find({}).sort({ sorting: 1 }).then((pages) => {
         app.locals.pages = pages
     }, (err) => { console.log(err) })
@@ -90,6 +93,9 @@ app.use(function (req, res, next) {
     }, (err) => { console.log(err) })
     News.find({}).sort({ sorting: 1 }).then((news) => {
         app.locals.news = news
+    }, (err) => { console.log(err) })
+    Achievements.find({}).sort({ sorting: 1 }).then((achievements) => {
+        app.locals.achievements = achievements
     }, (err) => { console.log(err) })
     next();
 });
@@ -140,6 +146,19 @@ app.get('/news', (req, res) => {
         console.log(err)
     })
 })
+app.get('/achievements/:slug', (req, res) => {
+    Achievements.findOne({ slug: req.params.slug }).then((achievements) => {
+        res.render('partials/achievements', {
+            title: achievements.title,
+            content: achievements.content,
+            image: achievements.image,
+            created: achievements.created,
+            id: achievements.id
+        })
+    }, (err) => {
+        console.log(err)
+    })
+})
 
 app.use('/', pages)
 app.use('/admin', admin_pages)
@@ -147,6 +166,7 @@ app.use('/admin', admin_carousel)
 app.use('/admin', admin_aboutSch)
 app.use('/admin', admin_explore)
 app.use('/admin', admin_news)
+app.use('/admin', admin_achievements)
 
 app.listen(8000,()=>{
     console.log('server is on')

@@ -1,0 +1,49 @@
+
+
+<div class="slideshow-container">
+    <div class="numbertext">3 / 3</div>
+        <% carousel.forEach(function(img){ %>
+    <div class="mySlides fade">
+        <img src="/images/carouselImages/<%= img._id %>/<%= img.image %>" style="width:100%;height:10%">
+        <div class="title"><%= img.title %></div>
+        <div class="text"><%= img.desc %></div>
+    </div>
+        <% }); %>
+
+</div>
+<div class="dotDiv" style="text-align:center">
+    <% carousel.forEach(function(img){ %>
+        <span class="dot"></span>
+    <% }); %>
+</div>
+
+
+
+<script>
+    var slideIndex = 0;
+showSlides();
+
+function showSlides() {
+  var i;
+  var slides = document.getElementsByClassName("mySlides");
+  var dots = document.getElementsByClassName("dot");
+  for (i = 0; i < slides.length; i++) {
+    slides[i].style.display = "none";  
+  }
+  slideIndex++;
+  if (slideIndex > slides.length) {slideIndex = 1}    
+  for (i = 0; i < dots.length; i++) {
+    dots[i].className = dots[i].className.replace(" active", "");
+  }
+  slides[slideIndex-1].style.display = "block";  
+  dots[slideIndex-1].className += " active";
+  setTimeout(showSlides, 4000); // Change image every 4 seconds
+}
+    
+</script>
+<style>
+ .text{
+     color:blue;
+     font-size:100%;
+ }
+</style>

@@ -2,36 +2,11 @@
 
 
 <h2>Carousels Images</h2>
-<a href="/admin/carousel/add-carousel">Add a new carousels Images</a>
+<div class="add-to-pages">
+
+<a href="/admin/carousel/add-carousel"><i class="fas fa-plus"></i> Add a new carousels Images</a>
+</div>
 <br>
-
-<style type="text/css">
-    table.gridtable {
-        font-family: verdana, arial, sans-serif;
-        font-size: 11px;
-        color: #333333;
-        border-width: 1px;
-        border-color: #666666;
-        border-collapse: collapse;
-    }
-
-    table.gridtable th {
-        border-width: 1px;
-        padding: 8px;
-        border-style: solid;
-        border-color: #666666;
-        background-color: #dedede;
-    }
-
-    table.gridtable td {
-        border-width: 1px;
-        padding: 8px;
-        border-style: solid;
-        border-color: #666666;
-        background-color: #ffffff;
-    }
-</style>
-
 
 <table class="gridtable">
     <thead>
@@ -39,8 +14,8 @@
             <th>Title</th>
             <th>desc</th>
             <th>Image</th>
-            <th>Edit</th>
-            <th>Delete</th>
+            <th><i class="far fa-edit" fa-4x ></i> Edit</th>
+            <th><i class="fa fa-trash" aria-hidden="true" style="font-size: 20px;"></i> Delete</th>
         </tr>
     </thead>
     
@@ -54,8 +29,8 @@
                     <td>
                     <img src="/images/carouselImages/<%= img._id %>/<%= img.image %>" style="width:20%;heigth:20%">
                     </td>
-                    <td><a href="/admin/carousel/edit-carousel/<%= img.slug %>">Edit</a></td>
-                    <td><a href="/admin/carousel/delete-carousel/<%= img._id %>">Delete</a></td>
+                    <td><a href="/admin/carousel/edit-carousel/<%= img.slug %>"><i class="far fa-edit" style="color:#08851d;"></i> Edit</a></td>
+                    <td><a href="/admin/carousel/delete-carousel/<%= img._id %>"><i class="fa fa-trash" aria-hidden="true" style="color:#cf1111;"></i> Delete</a></td>
                 </tr>
         <% }); %>
             </tbody>

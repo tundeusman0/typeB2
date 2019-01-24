@@ -1,6 +1,16 @@
-<div class="container">
-    <img src="img_lights.jpg" alt="Snow" style="width:25%">
-    <img src="img_lights.jpg" alt="Snow" style="width:25%">
-    <img src="img_lights.jpg" alt="Snow" style="width:25%">
-    <img src="img_lights.jpg" alt="Snow" style="width:25%">
+
+<div class="container-achievement">
+    <div class="achieve-note">
+        <h1>TypeB sch Acheivements</h1>
+    </div>
+    <div class="achieve-two">
+        <% achievements.forEach(function(img){ %>
+            <div class="achieve-images">
+                <a href="/achievements/<%= img.slug %>" target="_blank">
+                <img href="" src="/images/achievementsImages/<%= img._id %>/<%= img.image %>" alt="Snow" style="width:300px">
+                
+                </a>
+            </div>
+        <% }); %>
+    </div>
 </div>

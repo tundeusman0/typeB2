@@ -1,7 +1,9 @@
 <%- include('../layout/admin_header.ejs') %>
 
 <h2>Add an Explore Pages</h2>
-<a href="/admin/explore">Back to all Explore Pages</a>
+<div class="back-to-pages">
+<a href="/admin/explore"><i class="fas fa-arrow-left"></i> Back to all Explore Pages</a>
+</div>
 <br />
 <form method="POST" action="/admin/explore/add-explore" enctype="multipart/form-data">
     <div>

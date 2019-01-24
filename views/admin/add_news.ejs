@@ -1,7 +1,11 @@
 <%- include('../layout/admin_header.ejs') %>
 
 <h2>Add News Pages</h2>
-<a href="/admin/news">Back to all News Pages</a>
+<div class="back-to-pages">
+
+<a href="/admin/news"><i class="fas fa-arrow-left"></i> Back to all News Pages</a>
+</div>
+<br />
 <br />
 <form method="POST" action="/admin/news/add-news" enctype="multipart/form-data">
     <div>

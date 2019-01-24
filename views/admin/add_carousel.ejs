@@ -1,7 +1,9 @@
 <%- include('../layout/admin_header.ejs') %>
 
 <h2>Add a Carousel</h2>
-<a href="/admin/carousel">Back to all Carousel</a>
+<div class="back-to-pages">
+<a href="/admin/carousel"><i class="fas fa-arrow-left"></i> Back to all Carousel</a>
+</div>
 <br />
 <form method="POST" action="/admin/carousel/add-carousel" enctype="multipart/form-data">
     <div>
@@ -10,7 +12,7 @@
     </div>
     <div>
         <label for="">desc</label>
-        <input type="text" name="desc" value="<%= desc %>" placeholder="desc" />
+        <textarea name="desc" id="" value="<%= desc %>" placeholder="desc"></textarea>
     </div>
     <div>
         <label for="">slug</label>
