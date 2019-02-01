@@ -7,7 +7,7 @@ var fs = require('fs-extra');
 var resizeImg = require('resize-img');
 
 router.get('/', (req, res) => {
-    res.send('Achievements,add-Achievements')
+    res.send('index')
 
 })
 

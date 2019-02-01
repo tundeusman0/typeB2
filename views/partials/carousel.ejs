@@ -1,12 +1,12 @@
-<div class="slideshow-container">
+<div class="slideshow-container" style="margin:0;padding:0">
 
     <!-- <div class="numbertext"><%=  %>/<%= carousel.length %></div>-->
 
         <% carousel.forEach(function(img,index){ %>
-    <div class="mySlides fade">
+    <div class="mySlides ">
         <img src="/images/carouselImages/<%= img._id %>/<%= img.image %>" >
         <div class="Ctitle"><%= img.title %></div>
-        <div class="text"><%= img.desc %></div>
+        <div class="text"><%- img.desc %></div>
     </div>
         <% }); %>
 

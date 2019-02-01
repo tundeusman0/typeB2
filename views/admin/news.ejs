@@ -2,6 +2,11 @@
 
 
 <h2>News </h2>
+<br>
+<div class="back-to-pages">
+<a href="/admin"><i class="fas fa-arrow-left"></i> Back to Admin</a>
+</div>
+<br>
 <div class="add-to-pages">
 <a href="/admin/news/add-news"><i class="fas fa-plus"></i> Add a new news</a>
 </div>
@@ -13,7 +18,6 @@
         <tr class="home">
             <th>Title</th>
             <th>Image</th>
-            <th>Content</th>
             <th>Created At</th>
             <th><i class="far fa-edit" fa-4x ></i> Edit</th>
             <th><i class="fa fa-trash" aria-hidden="true" style="font-size: 20px;"></i> Delete</th>
@@ -29,7 +33,6 @@
                     <td>
                     <img src="/images/newsImages/<%= img._id %>/<%= img.image %>" style="width:20%;heigth:20%">
                     </td>
-                    <td><%= img.content %></td>
                     <td><%= img.created %></td>
                     <td><i class="far fa-edit" style="color:#08851d;"></i><a href="/admin/news/edit-news/<%= img.slug %>"> Edit</a></td>
                     <td><i class="fa fa-trash" aria-hidden="true" style="color:#cf1111;"></i><a href="/admin/news/delete-news/<%= img._id %>"> Delete</a></td>

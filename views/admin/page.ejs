@@ -1,0 +1,19 @@
+<%- include('../layout/admin_header.ejs') %>
+<h2>Add a App title</h2>
+<br>
+<div class="back-to-pages">
+<a href="/admin"><i class="fas fa-arrow-left"></i> Back to Admin</a>
+</div>
+<form method="POST" action="/admin/title">
+    <div>
+        <label for="">Title</label>
+        <input type="text" name="schTitle" value="<%= schTitle %>" placeholder="school title" />
+        <input  type="hidden" name="id" id="" value="<%= id %>" />
+    </div>
+    <button>Submit</button>
+</form>
+<div>
+    <%= schTitle %>
+</div>
+
+<%- include('../layout/footer.ejs') %>

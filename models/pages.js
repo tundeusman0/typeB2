@@ -17,11 +17,11 @@ var pageSchema = new Schema({
         },
         content:{
             type:String
+        },
+        slug: {
+            type: String
         }
     }],
-    sub:{
-        type:String
-    },
     content:{
         type:String,
         minlength: 5

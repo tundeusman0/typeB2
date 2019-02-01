@@ -1,10 +1,11 @@
 <div>
     <fieldset background="/images/std-gist.jpg">
-        <legend class="exploreheader" align="center">Explore TypeB</legend>
+        <legend class="exploreheader" align="center">Explore <%= schTitle %></legend>
         <div class="explore" >
         <% explore.forEach(function(img){ %>
-            <a href="/explore/<%= img.slug %>" target="_blank" class="exploreElement"><%= img.title %></a>
+            <a href="/explore/<%= img.slug %>" class="exploreElement"><%= img.title %></a>
         <% }); %>
+        <a href="/event" class="exploreElement"><%= schTitle %> Events</a>
             
         </div>
     </fieldset>

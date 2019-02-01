@@ -1,0 +1,39 @@
+<%- include('../layout/header.ejs') %>
+
+        <div class="container-bar">
+                <div class="left-bar">
+                        <div class="content-title">
+                        <h2><%= title %></h2>
+                        </div>
+                        <!--<% if(image = undefined){ %>
+                            <div class="content-image">
+                                <img src="/images/pagesImages/<%= id %>/<%= image %>" alt="Lights" style="width:80%;height:30%">
+                            </div>
+                        <% } %> -->
+                        
+                        <div class="content">
+                        <div><%- content %></div>
+                        </div>
+
+                </div>
+
+                <div class="right-bar">
+                        <div class="footer2h">
+                        <h1>Explore @ <%= schTitle %> </h1>
+                        <br>
+                        <a href="/event"class="footer2" style="color:white;"><%= schTitle %> Events</a>
+                        <% explore.forEach(function(img){ %>
+                        <div class="footer2">
+                                <a href="/explore/<%= img.slug %>"><%= img.title %></a>
+                        </div>
+                        <% }); %>
+                        </div>
+                </div> 
+                        
+        </div>
+
+        <div id="news" style="margin-top:0;"><%- include('./news.ejs') %></div>
+        <div id="achievement"><%- include('./achievement.ejs') %></div>
+
+
+<%- include('../layout/footer.ejs') %>

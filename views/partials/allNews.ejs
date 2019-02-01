@@ -1,34 +1,38 @@
 <%- include('../layout/header.ejs') %>
-
-<div class="container">
-    <h2>Nested Media Objects</h2>
-    <p>Media objects can also be nested (a media object inside a media object):</p><br>
-            <div class="media">
-                <div class="media-left">
+    <h2>Read the <%= schTitle %> News</h2>
+    <p>These are the news we have for you</p><br>
+    <div style="margin-bottom:20px; background-color: rgb(244, 250, 241);">
+        
+            <% news.forEach(function(img,index){ %>
+            <% if(index === 0 ){ %>
+                <div class="media-first">
                     <img src="/images/newsImages/<%= news[0]._id %>/<%= news[0].image %>" class="media-object" style="width:45px">
-                </div>
                 <div class="media-body">
-                    <h4 class="media-heading"><%= news[0].title %> <small><i><%= news[0].created %></i></small></h4>
                     <a href="/news/<%= news[0].slug %>" target="_blank">                    
-                    <p><%= news[0].content %></p>
+                    <h2 class="media-heading"><%= news[0].title %> <small><i><%= news[0].created %></i></small></h2>
                     </a>
-                    <% news.forEach(function(img,index){ %>
-                         <% if(index > 0){ %> 
-                        <div class="media">
-                                <div class="media-left">
-                                    <img src="/images/newsImages/<%= img._id %>/<%= img.image %>" class="media-object" style="width:45px">
-                                </div>
-                                <div class="media-body">
-                                    <h4 class="media-heading"><%= img.title %> <small><i><%= img.created %></i></small></h4>
-                                    <a href="/news/<%= img.slug %>" target="_blank">                    
-                                    <p><%= img.content %></p>
-                                    </a>
-                                </div>
-                        </div>
-                        <% } %> 
-                    <% }); %>
                 </div>
-            </div> 
+                </div>
+            <% }%>
+            <div class="media-rest">
+                    <div class="media-rest-left">
+                        <img src="/images/newsImages/<%= img._id %>/<%= img.image %>" class="media-object" style="width:45px">
+                    <div class="media-body">
+                        <a href="/news/<%= img.slug %>" target="_blank">                    
+                            <h2 class="media-heading"><%= img.title %> <small><i><%= img.created %></i></small></h2>
+                        </a>
+                    </div>
+                    </div>
+            </div>
+            <% }) %>
+
+    </div>
+
+
+        <div id="news" style="margin-top:0;"><%- include('./news.ejs') %></div>
+        <div id="achievement"><%- include('./achievement.ejs') %></div>
+
 
 <%- include('../layout/footer.ejs') %>
+
     

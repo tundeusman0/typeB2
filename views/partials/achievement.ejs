@@ -1,12 +1,12 @@
 
 <div class="container-achievement">
     <div class="achieve-note">
-        <h1>TypeB sch Acheivements</h1>
+        <h1><%= schTitle %> Acheivements</h1>
     </div>
     <div class="achieve-two">
         <% achievements.forEach(function(img){ %>
             <div class="achieve-images">
-                <a href="/achievements/<%= img.slug %>" target="_blank">
+                <a href="/achievements/<%= img.slug %>">
                 <img href="" src="/images/achievementsImages/<%= img._id %>/<%= img.image %>" alt="Snow" style="width:300px">
                 
                 </a>

@@ -4,11 +4,11 @@
     
 
 <!-- <div class="container">-->
-    <h2>Note About the School</h2>
+    <h2>Notes About <%= schTitle %></h2>
     <div class=" thumbsRow">
         <% noteAbtSch.forEach(function(img){ %>
             <div class="thumbnails">
-                <a href="/about_school/noteAbtSch/<%= img.slug %>" target="_blank">
+                <a href="/about_school/noteAbtSch/<%= img.slug %>">
                     <img src="/images/aboutSchoolImages/<%= img._id %>/<%= img.image %>" alt="Lights" style="width:100%">
                     <div class="caption">
                         <h4><%= img.title %></h4>

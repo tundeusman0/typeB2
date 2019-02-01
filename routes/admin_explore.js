@@ -7,7 +7,7 @@ var fs = require('fs-extra');
 var resizeImg = require('resize-img');
 
 router.get('/', (req, res) => {
-    res.send('explore,add-explore')
+    res.send('index')
 
 })
 
@@ -52,8 +52,8 @@ router.post('/explore/add-explore',
             res.render('admin/add_explore', { title, content, slug })
         } else {
             Explore.find({}).then((explore)=>{
-                if(explore.length === 6){
-                    req.flash('error', 'add_explore already 6 in the database, delete one to choose another one');
+                if(explore.length === 5){
+                    req.flash('error', 'add_explore already 5 in the database, delete one to choose another one');
                     res.render('admin/add_explore', { title, slug, content })
                 }
                 else if (!explore.filter((note)=>note.slug === slug)) {

@@ -1,0 +1,40 @@
+<%- include('../layout/admin_header.ejs') %>
+
+<h2>Add New Event</h2>
+<div class="back-to-pages">
+
+<a href="/admin/event"><i class="fas fa-arrow-left"></i> Back to all Events</a>
+</div>
+<br />
+<br />
+
+
+
+<br>
+<form method="POST" action="/admin/event/add-event" >
+    <div>
+        <label for="">Title</label>
+        <input type="text" name="title" value="<%= title %>" placeholder="title" />
+    </div>
+    <div>
+        <label for="">slug</label>
+        <input type="text" name="slug" value="<%= slug %>" placeholder="slug" />
+    </div>
+    <div>
+        <label for="">desc</label>
+        <textarea name="desc" id="editor" cols="30" rows="10" placeholder="desc"><%- desc %></textarea>
+    </div>
+    <div>
+        <label for="">Event date from</label>
+        <input type="date" name="datefrom">
+    </div>
+    <div>
+        <label for="">Event date to</label>
+        <input type="date" name="dateto">
+    </div>
+    
+
+    <button>Submit</button>
+</form>
+
+<%- include('../layout/footer.ejs') %>

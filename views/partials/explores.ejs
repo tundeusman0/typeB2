@@ -1,7 +1,16 @@
 <%- include('../layout/header.ejs') %>
 
+        <div class="content-title">
         <h2><%= title %></h2>
+        </div>
+        <div class="content-image">
         <img src="/images/exploreImages/<%= id %>/<%= image %>" alt="Lights" style="width:80%;height:30%">
-        <p><%= content %></p>
+        </div>
+        <div class="content">
+        <div><%- content %></div>
+        </div>
+
+        <div id="news"><%- include('./news.ejs') %></div>
+        <div id="achievement"><%- include('./achievement.ejs') %></div>
 
 <%- include('../layout/footer.ejs') %>

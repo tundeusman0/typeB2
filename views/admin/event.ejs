@@ -1,0 +1,79 @@
+    
+    <%- include('../layout/admin_header.ejs') %>
+
+
+<h2>Event </h2>
+<br>
+<div class="back-to-pages">
+<a href="/admin"><i class="fas fa-arrow-left"></i> Back to Admin</a>
+</div>
+<div class="add-to-pages">
+<a href="/admin/event/add-event"><i class="fas fa-plus"></i> Add a new event</a>
+</div>
+<br>
+<br>
+    <div id="year"><a href="/admin/event/eventitle"><%= eventseason %></a></div>
+<br>
+
+<table class="gridtable">
+    <thead>
+        <tr class="home">
+            <th>Title</th>
+            <th>Date From</th>
+            <th>Date To</th>
+            <th>Desc</th>
+            <th><i class="far fa-edit" fa-4x ></i> Edit</th>
+            <th><i class="fa fa-trash" aria-hidden="true" style="font-size: 20px;"></i> Delete</th>
+        </tr>
+    </thead>
+    
+    <tbody
+    ondrop="drop(event,this)" ondragover="allowDrop(event)">
+        <% event.forEach(function(img){ %>
+                <tr id="<%= img._id %>" class="<%= img.slug %>" draggable="true" ondragstart="drag(event)" ondrop="return false"
+                    ondragover="return false">
+                    <td><%= img.title %></td>
+                    <td><%= img.datefrom %></td>
+                    <td><%= img.dateto %></td>
+                    <td><%- img.desc  %></td>
+                    <td><i class="far fa-edit" style="color:#08851d;"></i><a href="/admin/event/edit-event/<%= img.slug %>"> Edit</a></td>
+                    <td><i class="fa fa-trash" aria-hidden="true" style="color:#cf1111;"></i><a href="/admin/event/delete-event/<%= img._id %>"> Delete</a></td>
+                </tr>
+        <% }); %>
+            </tbody>
+</table>
+
+<script>
+    // let yr = new Date();
+    // let year = document.getElementById("year");
+    // year.innerText = yr.getFullYear();
+    function allowDrop(ev) {
+        ev.preventDefault();
+        ev.stopPropagation()
+    }
+
+    function drag(ev) {
+        ev.dataTransfer.setData("text", ev.target.id);
+    }
+    function drop(ev, el) {
+        ev.preventDefault();
+        var data = ev.dataTransfer.getData("text");
+        el.appendChild(document.getElementById(data));
+        var trs = document.querySelectorAll('tbody tr')
+        var trId = []
+        for (let tr of trs) {
+            trId.push(tr.id)
+        }
+        // console.log(trId)
+        var http = new XMLHttpRequest();
+        http.open("POST", "/admin/reorder-event", true);
+        http.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        http.send(JSON.stringify({ trId }));
+    }
+    function noAllowDrop(ev) {
+        ev.stopPropagation();
+    }
+    // var allTr = document.querySelectorAll('tr')
+</script>
+
+<%- include('../layout/footer.ejs') %>

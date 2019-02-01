@@ -1,13 +1,48 @@
 const express = require('express');
 const router = express.Router();
 const { check, validationResult } = require('express-validator/check');
-const {Page} = require('./../models/pages')
+const { Page } = require('./../models/pages')
+const {Info} = require('./../models/info')
 
-router.get('/', (req, res) => {
-    res.send('admin pages')
-    
+// router.get('/',(req,res)=>{
+//     res.send('admin/admin')
+// })
+router.get('/title', (req, res) => {
+    Info.findOne({}).sort({ sorting: 1 }).exec((err, info) => {
+        let schTitle = info.schTitle
+        let id = info.id
+        res.render('admin/page', {
+            schTitle,
+            id
+        })
+    })
+
 })
+router.post('/title', (req, res) => {
+    let schTitle = req.body.schTitle
+    let id = req.body.id
+    if(schTitle){
+        Info.find({}).then((info)=>{
+            if (info[0].schTitle === schTitle){
+                req.flash('error', 'title already exits, update to another one');
+                res.redirect('/admin/title');
+            }
+            else if(info.length === 1){
+                Info.findByIdAndUpdate(id, { $set: { schTitle } }, { new: true })
+                    .then((schTitle) => {
+                        console.log(`App title updated`)
+                        req.flash('success', 'App title updated')
+                        res.redirect('/admin/title');
+                    }, (err) => { }).catch((e) => console.log(e))
+                
+            }
+        }).catch((e)=>{console.log(e)})
+    }else{
+        req.flash('error', 'title already exits, delete it to choose another one');
+        res.redirect('/admin/title');
+    }
 
+})
 
 router.get('/pages', (req, res) => {
     Page.find({}).sort({sorting:1}).exec((err,pages)=>{

@@ -8,7 +8,7 @@ var fs = require('fs-extra');
 var resizeImg = require('resize-img');
 
 router.get('/', (req, res) => {
-    res.send('news,add-news')
+    res.send('index')
 
 })
 
@@ -16,7 +16,7 @@ router.get('/', (req, res) => {
 router.get('/news', (req, res) => {
     News.find({}).sort({ sorting: 1 }).exec((err, news) => {
         res.render('admin/news', {
-            news
+            news,
             // created: created.format('MMMM Do YYYY, h:mm:ss a')
         })
     })
@@ -113,7 +113,7 @@ router.get('/news/edit-news/:slug', (req, res) => {
             content: news.content,
             image: news.image,
             slug: news.slug,
-            id: news.id
+            id: news.id,
         })
     }, (err) => {
         console.log(err)

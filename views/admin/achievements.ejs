@@ -2,6 +2,11 @@
 
 
 <h2> Achievement </h2>
+<br>
+<div class="back-to-pages">
+<a href="/admin"><i class="fas fa-arrow-left"></i> Back to Admin</a>
+</div>
+<br>
 <a href="/admin/achievements/add-achievements"><i class="fas fa-plus"></i> Add an achievement</a>
 </div>
 <br>
@@ -11,7 +16,6 @@
     <thead>
         <tr class="home">
             <th>Title</th>
-            <th>Content</th>
             <th>Image</th>
             <th><i class="far fa-edit" fa-4x ></i> Edit</th>
             <th><i class="fa fa-trash" aria-hidden="true" style="font-size: 20px;"></i> Delete</th>
@@ -24,7 +28,6 @@
                 <tr id="<%= img._id %>" class="<%= img.slug %>" draggable="true" ondragstart="drag(event)" ondrop="return false"
                     ondragover="return false">
                     <td><%= img.title %></td>
-                    <td><%= img.content %></td>
                     <td>
                     <img src="/images/achievementsImages/<%= img._id %>/<%= img.image %>" style="width:20%;heigth:20%">
                     </td>

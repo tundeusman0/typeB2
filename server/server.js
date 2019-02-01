@@ -3,6 +3,7 @@ const bodyParser = require('body-parser')
 const session = require('express-session')
 const flash = require('connect-flash');
 const fileUpload = require('express-fileupload')
+// const FroalaEditor = require('PATH_TO_THE_SDK/lib/froalaEditor.js');
 
 const { Page } = require('./../models/pages')
 const { Carousel } = require('./../models/carousel')
@@ -10,6 +11,9 @@ const { NoteAboutSch } = require('../models/noteAboutSch')
 const { Explore } = require('../models/explore')
 const { News } = require('../models/news')
 const { Achievements } = require('../models/achievements')
+const { Info } = require('../models/info')
+const { Event } = require('../models/event')
+const { Eventseason } = require('../models/eventseason')
 const pages  = require('./../routes/pages')
 const admin_pages = require('./../routes/admin_pages')
 const admin_carousel = require('./../routes/admin_carousel')
@@ -17,6 +21,7 @@ const admin_aboutSch = require('./../routes/admin_aboutSch')
 const admin_explore = require('./../routes/admin_explore')
 const admin_news = require('./../routes/admin_news')
 const admin_achievements = require('./../routes/admin_achievements')
+const admin_event = require('./../routes/admin_event')
 const { mongoose } = require('./../db/mongoose');
 
 // path 
@@ -62,21 +67,25 @@ app.set('views', partialsPath)
 app.use(express.static(publicPath))
 // set global variable
 app.locals.errors = null;
-Carousel.find({}).sort({ sorting: 1 }).then((carousel) => {
-    app.locals.carousel = carousel
-}, (err) => { console.log(err) })
-Page.find({}).sort({ sorting: 1 }).then((pages) => {
-    app.locals.pages = pages
-}, (err) => { console.log(err) })
-NoteAboutSch.find({}).sort({ sorting: 1 }).then((noteAbtSch) => {
-    app.locals.noteAbtSch = noteAbtSch
-}, (err) => { console.log(err) })
-Explore.find({}).sort({ sorting: 1 }).then((explore) => {
-    app.locals.explore = explore
-}, (err) => { console.log(err) })
-Achievements.find({}).sort({ sorting: 1 }).then((achievements) => {
-    app.locals.achievements = achievements
-}, (err) => { console.log(err) })
+// Carousel.find({}).sort({ sorting: 1 }).then((carousel) => {
+//     app.locals.carousel = carousel
+// }, (err) => { console.log(err) })
+// Page.find({}).sort({ sorting: 1 }).then((pages) => {
+//     app.locals.pages = pages
+// }, (err) => { console.log(err) })
+// NoteAboutSch.find({}).sort({ sorting: 1 }).then((noteAbtSch) => {
+//     app.locals.noteAbtSch = noteAbtSch
+// }, (err) => { console.log(err) })
+// Explore.find({}).sort({ sorting: 1 }).then((explore) => {
+//     app.locals.explore = explore
+// }, (err) => { console.log(err) })
+// Achievements.find({}).sort({ sorting: 1 }).then((achievements) => {
+//     app.locals.achievements = achievements
+// }, (err) => { console.log(err) })
+// Info.find({}).sort({ sorting: 1 }).then((schTitle) => {
+//     app.locals.schTitle = schTitle
+// }, (err) => { console.log(err) })
+
 
 app.use(function (req, res, next) {
     Carousel.find({}).sort({ sorting: 1 }).then((carousel) => {
@@ -97,15 +106,27 @@ app.use(function (req, res, next) {
     Achievements.find({}).sort({ sorting: 1 }).then((achievements) => {
         app.locals.achievements = achievements
     }, (err) => { console.log(err) })
+    Info.findOne({}).then((info) => {
+        let schTitle = info.schTitle
+        app.locals.schTitle = schTitle
+    }, (err) => { console.log(err) })
+    Eventseason.findOne({}).then((event) => {
+        let eventseason = event.eventseason
+        app.locals.eventseason = eventseason
+    }, (err) => { console.log(err) }).catch((e)=>console.log(e))
+    Event.findOne({}).sort({ sorting: 1 }).then((event) => {
+        app.locals.event = event
+    }, (err) => { console.log(err) })
     next();
 });
+
 app.get('/about_school/noteAbtSch/:slug', (req, res) => {
     NoteAboutSch.findOne({ slug: req.params.slug }).then((noteAbtSch) => {
         res.render('partials/AboutSch', {
             title: noteAbtSch.title,
             content: noteAbtSch.content,
             image: noteAbtSch.image,
-            id: noteAbtSch.id
+            id: noteAbtSch.id,
         })
     }, (err) => {
         console.log(err)
@@ -118,7 +139,7 @@ app.get('/explore/:slug', (req, res) => {
             title: explore.title,
             content: explore.content,
             image: explore.image,
-            id: explore.id
+            id: explore.id,
         })
     }, (err) => {
         console.log(err)
@@ -131,21 +152,14 @@ app.get('/news/:slug', (req, res) => {
             content: news.content,
             image: news.image,
             created: news.created,
-            id: news.id
+            id: news.id,
         })
     }, (err) => {
         console.log(err)
     })
 })
-app.get('/news', (req, res) => {
-    News.find({}).sort({ sorting: 1 }).then((news) => {
-        res.render('partials/allNews', {
-            news
-        })
-    }, (err) => {
-        console.log(err)
-    })
-})
+
+
 app.get('/achievements/:slug', (req, res) => {
     Achievements.findOne({ slug: req.params.slug }).then((achievements) => {
         res.render('partials/achievements', {
@@ -153,7 +167,7 @@ app.get('/achievements/:slug', (req, res) => {
             content: achievements.content,
             image: achievements.image,
             created: achievements.created,
-            id: achievements.id
+            id: achievements.id,
         })
     }, (err) => {
         console.log(err)
@@ -167,6 +181,9 @@ app.use('/admin', admin_aboutSch)
 app.use('/admin', admin_explore)
 app.use('/admin', admin_news)
 app.use('/admin', admin_achievements)
+app.use('/admin', admin_event)
+
+
 
 app.listen(8000,()=>{
     console.log('server is on')

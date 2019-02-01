@@ -1,0 +1,43 @@
+<%- include('../layout/header.ejs') %>
+        <div class="container-bar">
+                <div class="left-bar">
+                        <h2 style="text-align:center; margin:20px auto 10px auto;"><%= schTitle %> Events</h2>
+                        <div style="text-align:center;margin:20px auto 10px auto;" class="content-title">
+                        <h2><%= eventseason %></h2>
+                        </div>
+                        <div class="event-lists" >
+                        <% event.forEach(function(img){ %>
+                        <div class="event-list">
+
+                        <div><%- img.title %></div> &nbsp ~~ &nbsp
+                        <div> <%- img.desc %></div> &nbsp
+                        from &nbsp <div><%= img.datefrom %></div> &nbsp
+                        to &nbsp<div><%= img.dateto %></div>
+
+                        </div>
+                        <% }); %>
+                        
+                        </div>
+
+                </div>
+
+                <div class="right-bar">
+                        <div class="footer2h">
+                        <h1>Explore @ <%= schTitle %> </h1>
+                        <br>
+                        <a href="/event"class="footer2" style="color:white;"><%= schTitle %> Events</a>
+                        <% explore.forEach(function(img){ %>
+                        <div class="footer2">
+                                <a href="/explore/<%= img.slug %>"><%= img.title %></a>
+                        </div>
+                        <% }); %>
+                        </div>
+                </div> 
+                        
+        </div>
+
+        <div id="news" style="margin-top:0;"><%- include('./news.ejs') %></div>
+        <div id="achievement"><%- include('./achievement.ejs') %></div>
+
+
+<%- include('../layout/footer.ejs') %>

@@ -1,5 +1,53 @@
+<script type="text/javascript">
+        CKEDITOR.replace( 'editor' );
+</script>
+
+</body>
 <footer>
-    <p>&copy; typeB school App</p>
+    <div class="footer">
+        <div class="footer1h">
+            <h1>About <%= schTitle %> </h1>
+            <% noteAbtSch.forEach(function(img){ %>
+            <div class="footer1">
+            <a href="/about_school/noteAbtSch/<%= img.slug %>"><%= img.title %></a>
+            </div>
+            <% }); %>
+        </div>
+        <div class="footer2h">
+            <h1>Explore @ <%= schTitle %>  </h1>
+            <% explore.forEach(function(img){ %>
+            <div class="footer2">
+                <a href="/explore/<%= img.slug %>"><%= img.title %></a>
+            </div>
+            <% }); %>
+            <a href="/event"class="footer2" style="color:white;"><%= schTitle %> Events</a>
+
+        </div>
+        <div class="footer3h">
+            <h1><%= schTitle %> Pages</h1>
+            <% pages.forEach(function(page){ -%>
+                <div class="footer3">
+                    <%  if(page.title === 'home'){ -%>
+                                    <a href="/" class="nav-link-ltr"><%= page.title %></a>
+                    <% }else{ -%>
+                        <%  if(page.subs){ -%>
+                                    <a href="/<%= page.slug %>" class="nav-link-ltr"><%= page.title %></a>
+                                <% for(let sub of page.subs){ -%>
+                                            <a href="/<%= page.slug %>" class="nav-link-ltr"><%= sub.title %></a>
+                                <% } -%>
+                                    </li>
+                            <% }else{ -%>
+                                    <a href="/<%= page.slug %>" class="nav-link-ltr"><%= page.title %></a>
+                        <% } -%>
+                    <% } -%>
+                </div>  
+            <% }) -%>  
+
+        </div>
+
+    </div>
+
+    <p>&copy; tunde usman @ 08038062989 </p>
 </footer>
 </body>
 </html>

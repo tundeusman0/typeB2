@@ -1,0 +1,33 @@
+<%- include('../layout/admin_header.ejs') %>
+
+<h2>Add New Event</h2>
+<div class="back-to-pages">
+
+<a href="/admin/event"><i class="fas fa-arrow-left"></i> Back to all Events</a>
+</div>
+<br />
+<br />
+
+<div id="seasondate">
+ from/to -> format : 2019/2010
+<br>
+<input type="text" id="seasonyr" name="seasonyr" value="<%= eventseason %>"> <br>
+</div>
+
+<br>
+
+<script>
+    // var season = document.getElementById('seasondate')
+    seasonyr.addEventListener("mouseleave",()=>{
+        let data = seasonyr.value
+        console.log(data)
+
+    var http = new XMLHttpRequest();
+        http.open("POST", "/admin/season-event", true);
+        http.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        http.send(data);
+    })
+
+</script>
+
+<%- include('../layout/footer.ejs') %>
