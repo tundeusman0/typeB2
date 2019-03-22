@@ -1,0 +1,67 @@
+<%- include('../layout/admin_header.ejs') %>
+        <div class="container-bar">
+                <div class="left-bar">
+                        <div class="content-title">
+                        <h2>Hi <%= number %></h2>
+                        </div>
+                        <div class="content-image">
+                        <img src="" alt="Student picture">
+                        </div>
+                        <div class="content">
+                        <div>You are a <%= designation %> of <%=department  %> department in faculty of <%= faculty %> </div>
+                        </div>
+                        <div class="admin-tabs">
+    
+                            <div class="admin-tab">
+                                <a href="/admin/title">Edit profile</a>
+                            </div>
+                            <div class="admin-tab">
+                                <a href="/admin/title">Check result</a>
+                            </div>
+                            <div class="admin-tab">
+                                <a href="/admin/title">View profile</a>
+                            </div>
+                            <div class="admin-tab">
+                                <a href="/admin/title">pay school fees</a>
+                            </div>
+                            <div class="admin-tab">
+                                <a href="/admin/title">Complain</a>
+                            </div>
+
+                        </div>
+
+                        <div class="admin-tabs">
+    
+                            <div class="admin-tab">
+                                <a href="/admin/title">Sugestions</a>
+                            </div>
+                            <div class="admin-tab">
+                                <a href="/admin/title">Join class Group Chat</a>
+                            </div>
+                            <div class="admin-tab">
+                                <a href="/admin/title">Message a lecturer</a>
+                            </div>
+                            <div class="admin-tab">
+                                <a href="/admin/title">submit assignment</a>
+                            </div>
+                            <div class="admin-tab">
+                                <a href="/admin/title">propose a project</a>
+                            </div>
+
+                        </div>
+                        <div class="groupchat">
+                        <label for="">Join a Group Chat</label>
+                            <select>
+                                <option value="">1</option>
+                                <option value="">2</option>
+                            </select>
+                        </div>
+                        
+
+                </div>
+
+        <%- include('../partials/attached.ejs') %>
+
+
+
+<%- include('../layout/footer.ejs') %>

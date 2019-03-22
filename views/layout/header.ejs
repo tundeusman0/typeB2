@@ -42,16 +42,18 @@
                 <% } -%>  
                 <% } -%>  
                     <li>
-                            <a href="/admin" class="nav-link nav-link-ltr extraLink"><i class="fas fa-sign-in-alt"></i> AdminLogin</a>
+                            <a href="/portal" class="nav-link nav-link-ltr extraLink"><i class="fas fa-sign-in-alt"></i> Portal Login</a>
                     </li>
             </ul>
         </nav>
     </header>
+    <%- messages('messages', locals) %>
     <% if(errors) {%>
     <% errors.forEach(function(error){ -%>
         <p class="error"><%= error.msg %></p> 
     <% })-%>
     <% } %>
+    
 
 
 

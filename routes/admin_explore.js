@@ -5,13 +5,15 @@ const { check, validationResult } = require('express-validator/check');
 const mkdirp = require('mkdirp')
 var fs = require('fs-extra');
 var resizeImg = require('resize-img');
+let auth = require('./../config/auth')
+const isAdmin = auth.isAdmin
 
-router.get('/', (req, res) => {
+router.get('/', isAdmin, (req, res) => {
     res.send('index')
 
 })
 
-router.get('/explore', (req, res) => {
+router.get('/explore',isAdmin, (req, res) => {
     Explore.find({}).sort({ sorting: 1 }).exec((err, explore) => {
         res.render('admin/explore', {
             explore
@@ -19,7 +21,7 @@ router.get('/explore', (req, res) => {
     })
 })
 
-router.get('/explore/add-explore', (req, res) => {
+router.get('/explore/add-explore',isAdmin, (req, res) => {
     let title = req.body.title
     let content = req.body.content
     let image = req.body.image
@@ -104,7 +106,7 @@ router.post('/reorder-explore', (req, res) => {
 
 })
 
-router.get('/explore/edit-explore/:slug', (req, res) => {
+router.get('/explore/edit-explore/:slug',isAdmin, (req, res) => {
     Explore.findOne({ slug: req.params.slug }).then((explore) => {
         res.render('admin/edit_explore', {
             title: explore.title,
@@ -163,7 +165,7 @@ router.post('/explore/edit-explore/:slug',
 
     });
 
-router.get('/explore/delete-explore/:id', (req, res) => {
+router.get('/explore/delete-explore/:id',isAdmin, (req, res) => {
     let id = req.params.id
     Explore.findByIdAndDelete(id).then((deleted) => {
         let path = 'public/images/exploreImages/' + id + '/' + deleted.image;

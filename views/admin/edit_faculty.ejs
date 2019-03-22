@@ -1,0 +1,28 @@
+<%- include('../layout/admin_header.ejs') %>
+
+<h2>Edit Faculty</h2>
+<div class="back-to-pages">
+<a href="/admin/faculty"><i class="fas fa-arrow-left"></i> Back to all Faculties</a>
+</div>
+
+<br>
+<br>
+<form method="POST" action="/admin/faculty/edit-faculty/<%= slug %>" enctype="multipart/form-data">
+    <div>
+        <label for="">Faculty</label>
+        <input type="text" name="faculty" value="<%= faculty %>" placeholder="faculty" />
+    </div>
+    <div>
+        <label for="">slug</label>
+        <input type="text" name="slug" value="<%= slug %>" placeholder="slug" />
+    </div>
+    <div>
+        <label for="">departments</label>
+        <textarea name="content" id="editor" cols="30" rows="10" placeholder="departments"><%= content %></textarea>
+    </div>
+
+    <input type="hidden" name="id" id="" value="<%= id %>" />
+    <button>Submit</button>
+</form>
+
+<%- include('../layout/footer.ejs') %>

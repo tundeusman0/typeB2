@@ -1,0 +1,29 @@
+<%- include('../layout/header.ejs') %>
+
+<div class="admin-addpages">
+
+
+<h2>Add a Faculty</h2>
+<div class="back-to-pages">
+<a href="/admin/faculty"><i class="fas fa-arrow-left"></i> Back to all Faculties</a>
+</div>
+<br />
+<br />
+<p>Please make sure you seperate the department with a comma</p>
+<form method="POST" action="/admin/faculty/add-faculty">
+    <div>
+        <label for="">Faculty</label>
+        <input type="text" name="faculty" value="<%= faculty %>" placeholder="faculty" />
+    </div>
+    <div>
+        <label for="">slug</label>
+        <input type="text" name="slug" value="<%= slug %>" placeholder="slug" />
+    </div>
+    <div>
+        <label for="">Departments</label>
+        <textarea name="content" cols="30" rows="10" placeholder="departments"><%= content %></textarea>
+    </div>
+    <button>Submit</button>
+</form>
+
+<%- include('../layout/footer.ejs') %>

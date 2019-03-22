@@ -13,23 +13,8 @@
 
                 </div>
 
-                <div class="right-bar">
-                        <div class="footer2h">
-                        <h1>Explore @ <%= schTitle %> </h1>
-                        <br>
-                        <a href="/event"class="footer2" style="color:white;"><%= schTitle %> Events</a>
-                        <% explore.forEach(function(img){ %>
-                        <div class="footer2">
-                                <a href="/explore/<%= img.slug %>"><%= img.title %></a>
-                        </div>
-                        <% }); %>
-                        </div>
-                </div> 
-                        
-        </div>
+        <%- include('./attached.ejs') %>
 
-        <div id="news" style="margin-top:0;"><%- include('./news.ejs') %></div>
-        <div id="achievement"><%- include('./achievement.ejs') %></div>
 
 
 <%- include('../layout/footer.ejs') %>

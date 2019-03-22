@@ -6,14 +6,16 @@ const { check, validationResult } = require('express-validator/check');
 const mkdirp = require('mkdirp')
 var fs = require('fs-extra');
 var resizeImg = require('resize-img');
+let auth = require('./../config/auth')
+const isAdmin = auth.isAdmin
 
-router.get('/', (req, res) => {
+router.get('/', isAdmin, (req, res) => {
     res.send('index')
 
 })
 
 
-router.get('/news', (req, res) => {
+router.get('/news', isAdmin, (req, res) => {
     News.find({}).sort({ sorting: 1 }).exec((err, news) => {
         res.render('admin/news', {
             news,
@@ -22,7 +24,7 @@ router.get('/news', (req, res) => {
     })
 })
 
-router.get('/news/add-news', (req, res) => {
+router.get('/news/add-news',isAdmin, (req, res) => {
     let title = req.body.title
     let content = req.body.content
     let image = req.body.image
@@ -106,7 +108,7 @@ router.post('/reorder-news', (req, res) => {
 
 })
 
-router.get('/news/edit-news/:slug', (req, res) => {
+router.get('/news/edit-news/:slug',isAdmin, (req, res) => {
     News.findOne({ slug: req.params.slug }).then((news) => {
         res.render('admin/edit_news', {
             title: news.title,
@@ -165,7 +167,7 @@ router.post('/news/edit-news/:slug',
 
     });
 
-router.get('/news/delete-news/:id', (req, res) => {
+router.get('/news/delete-news/:id',isAdmin, (req, res) => {
     let id = req.params.id
     News.findByIdAndDelete(id).then((deleted) => {
         let path = 'public/images/newsImages/' + id + '/' + deleted.image;

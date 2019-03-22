@@ -3,11 +3,13 @@ const router = express.Router();
 const { check, validationResult } = require('express-validator/check');
 const { Page } = require('./../models/pages')
 const {Info} = require('./../models/info')
+let auth = require('./../config/auth')
+const isAdmin = auth.isAdmin
 
 // router.get('/',(req,res)=>{
 //     res.send('admin/admin')
 // })
-router.get('/title', (req, res) => {
+router.get('/title', isAdmin, (req, res) => {
     Info.findOne({}).sort({ sorting: 1 }).exec((err, info) => {
         let schTitle = info.schTitle
         let id = info.id
@@ -44,7 +46,7 @@ router.post('/title', (req, res) => {
 
 })
 
-router.get('/pages', (req, res) => {
+router.get('/pages',isAdmin, (req, res) => {
     Page.find({}).sort({sorting:1}).exec((err,pages)=>{
         res.render('admin/pages', {
             pages
@@ -52,7 +54,7 @@ router.get('/pages', (req, res) => {
     })
 })
 
-router.get('/pages/add-pages', (req, res) => {
+router.get('/pages/add-pages',isAdmin, (req, res) => {
     let title = req.body.title
     let slug = req.body.slug
     let content = req.body.content
@@ -117,7 +119,7 @@ router.post('/reorder-pages', (req,res) => {
     }   
 })
 
-router.get('/pages/edit-page/:slug', (req, res) => {
+router.get('/pages/edit-page/:slug',isAdmin, (req, res) => {
     Page.findOne({ slug: req.params.slug }).then((page) => {
         res.render('admin/edit_pages', {
             title: page.title,
@@ -156,7 +158,7 @@ router.post('/pages/edit-page/:slug',[
 
 });
 
-router.get('/pages/delete-page/:id', (req, res) => {
+router.get('/pages/delete-page/:id',isAdmin, (req, res) => {
     let id = req.params.id
     Page.findByIdAndDelete(id).then((deleted) => {
         req.flash('success', 'Page Deleted');

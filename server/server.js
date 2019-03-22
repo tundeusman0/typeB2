@@ -3,9 +3,11 @@ const bodyParser = require('body-parser')
 const session = require('express-session')
 const flash = require('connect-flash');
 const fileUpload = require('express-fileupload')
-// const FroalaEditor = require('PATH_TO_THE_SDK/lib/froalaEditor.js');
 
+
+const { User } = require('./../models/user')
 const { Page } = require('./../models/pages')
+const { Faculty } = require('./../models/faculty')
 const { Carousel } = require('./../models/carousel')
 const { NoteAboutSch } = require('../models/noteAboutSch')
 const { Explore } = require('../models/explore')
@@ -14,8 +16,11 @@ const { Achievements } = require('../models/achievements')
 const { Info } = require('../models/info')
 const { Event } = require('../models/event')
 const { Eventseason } = require('../models/eventseason')
-const pages  = require('./../routes/pages')
+const pages = require('./../routes/pages')
+const admin = require('./../routes/admin')
+const portal  = require('./../routes/portal')
 const admin_pages = require('./../routes/admin_pages')
+const admin_faculty = require('./../routes/admin_faculty')
 const admin_carousel = require('./../routes/admin_carousel')
 const admin_aboutSch = require('./../routes/admin_aboutSch')
 const admin_explore = require('./../routes/admin_explore')
@@ -23,7 +28,11 @@ const admin_news = require('./../routes/admin_news')
 const admin_achievements = require('./../routes/admin_achievements')
 const admin_event = require('./../routes/admin_event')
 const { mongoose } = require('./../db/mongoose');
+const passport = require('passport')
 
+
+// passport config
+require('./../config/passport')(passport)
 // path 
 const path = require('path')
 
@@ -33,9 +42,14 @@ const partialsPath = path.join(__dirname, '/../views')
 
 const app = express();
 
+// Heroku port or local port 
+const port = process.env.PORT || 8000;
+
+
 // bodyParser
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
+
 // parse application/json
 app.use(bodyParser.json({
     type: function (req) {
@@ -49,6 +63,10 @@ app.use(session({
     resave: false,
     saveUninitialized: true
 }))
+
+// passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
 
 // express-messages middleware
 app.use(require('connect-flash')());
@@ -67,27 +85,20 @@ app.set('views', partialsPath)
 app.use(express.static(publicPath))
 // set global variable
 app.locals.errors = null;
-// Carousel.find({}).sort({ sorting: 1 }).then((carousel) => {
-//     app.locals.carousel = carousel
-// }, (err) => { console.log(err) })
-// Page.find({}).sort({ sorting: 1 }).then((pages) => {
-//     app.locals.pages = pages
-// }, (err) => { console.log(err) })
-// NoteAboutSch.find({}).sort({ sorting: 1 }).then((noteAbtSch) => {
-//     app.locals.noteAbtSch = noteAbtSch
-// }, (err) => { console.log(err) })
-// Explore.find({}).sort({ sorting: 1 }).then((explore) => {
-//     app.locals.explore = explore
-// }, (err) => { console.log(err) })
-// Achievements.find({}).sort({ sorting: 1 }).then((achievements) => {
-//     app.locals.achievements = achievements
-// }, (err) => { console.log(err) })
-// Info.find({}).sort({ sorting: 1 }).then((schTitle) => {
-//     app.locals.schTitle = schTitle
-// }, (err) => { console.log(err) })
 
 
-app.use(function (req, res, next) {
+
+app.get('*', function (req, res, next) {
+//     // res.locals.cart = req.session.cart;
+    res.locals.user = req.user || null;
+    next();
+});
+
+
+    Info.findOne({}).then((info) => {
+        let schTitle = info.schTitle
+        app.locals.schTitle = schTitle
+    }, (err) => { console.log(err) })
     Carousel.find({}).sort({ sorting: 1 }).then((carousel) => {
         app.locals.carousel = carousel
     }, (err) => { console.log(err) })
@@ -106,10 +117,6 @@ app.use(function (req, res, next) {
     Achievements.find({}).sort({ sorting: 1 }).then((achievements) => {
         app.locals.achievements = achievements
     }, (err) => { console.log(err) })
-    Info.findOne({}).then((info) => {
-        let schTitle = info.schTitle
-        app.locals.schTitle = schTitle
-    }, (err) => { console.log(err) })
     Eventseason.findOne({}).then((event) => {
         let eventseason = event.eventseason
         app.locals.eventseason = eventseason
@@ -117,64 +124,20 @@ app.use(function (req, res, next) {
     Event.findOne({}).sort({ sorting: 1 }).then((event) => {
         app.locals.event = event
     }, (err) => { console.log(err) })
-    next();
-});
-
-app.get('/about_school/noteAbtSch/:slug', (req, res) => {
-    NoteAboutSch.findOne({ slug: req.params.slug }).then((noteAbtSch) => {
-        res.render('partials/AboutSch', {
-            title: noteAbtSch.title,
-            content: noteAbtSch.content,
-            image: noteAbtSch.image,
-            id: noteAbtSch.id,
-        })
-    }, (err) => {
-        console.log(err)
-    })
-})
-
-app.get('/explore/:slug', (req, res) => {
-    Explore.findOne({ slug: req.params.slug }).then((explore) => {
-        res.render('partials/explores', {
-            title: explore.title,
-            content: explore.content,
-            image: explore.image,
-            id: explore.id,
-        })
-    }, (err) => {
-        console.log(err)
-    })
-})
-app.get('/news/:slug', (req, res) => {
-    News.findOne({ slug: req.params.slug }).then((news) => {
-        res.render('partials/new', {
-            title: news.title,
-            content: news.content,
-            image: news.image,
-            created: news.created,
-            id: news.id,
-        })
-    }, (err) => {
-        console.log(err)
-    })
-})
+    User.find({designation:'student'}).sort({ sorting: 1 }).then((students) => {
+        app.locals.student = students
+        // console.log(students)
+    }, (err) => { console.log(err) })
+    User.find({ designation: 'lecturer' }).sort({ sorting: 1 }).then((lecturers) => {
+        app.locals.lecturer = lecturers
+        // console.log(lecturers)
+    }, (err) => { console.log(err) })
 
 
-app.get('/achievements/:slug', (req, res) => {
-    Achievements.findOne({ slug: req.params.slug }).then((achievements) => {
-        res.render('partials/achievements', {
-            title: achievements.title,
-            content: achievements.content,
-            image: achievements.image,
-            created: achievements.created,
-            id: achievements.id,
-        })
-    }, (err) => {
-        console.log(err)
-    })
-})
-
+app.use('/admin', admin)
+app.use('/portal', portal)
 app.use('/', pages)
+app.use('/admin', admin_faculty)
 app.use('/admin', admin_pages)
 app.use('/admin', admin_carousel)
 app.use('/admin', admin_aboutSch)
@@ -185,6 +148,6 @@ app.use('/admin', admin_event)
 
 
 
-app.listen(8000,()=>{
-    console.log('server is on')
+app.listen(port,()=>{
+    console.log(`server is started on port ${port}`)
 })

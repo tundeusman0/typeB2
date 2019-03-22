@@ -7,8 +7,10 @@ const { check, validationResult } = require('express-validator/check');
 const mkdirp = require('mkdirp')
 var fs = require('fs-extra');
 var resizeImg = require('resize-img');
+let auth = require('./../config/auth')
+const isAdmin = auth.isAdmin;
 
-router.get('/', (req, res) => {
+router.get('/', isAdmin, (req, res) => {
     res.send('event index')
 
 })
@@ -43,7 +45,7 @@ router.post('/season-event', (req, res) => {
 })
     }
 })
-router.get('/event/eventitle', (req, res) => {
+router.get('/event/eventitle',isAdmin, (req, res) => {
     Eventseason.find({}).then((events)=>{
         let eventseason = events[0].eventseason
             res.render('admin/eventitle', {
@@ -64,7 +66,7 @@ router.get('/event', (req, res) => {
     }).catch((e)=>(res.status(404).send('Page not found')))
 })
 
-router.get('/event/add-event', (req, res) => {
+router.get('/event/add-event',isAdmin, (req, res) => {
     let title = req.body.title
     let desc = req.body.desc
     let slug = req.body.slug
@@ -133,7 +135,7 @@ router.post('/reorder-event', (req, res) => {
 
 })
 
-router.get('/event/edit-event/:slug', (req, res) => {
+router.get('/event/edit-event/:slug', isAdmin, (req, res) => {
     Event.findOne({ slug: req.params.slug }).then((event) => {
         res.render('admin/edit_event', {
             title: event.title,
@@ -177,7 +179,7 @@ router.post('/event/edit-event/:slug',
 
     });
 
-router.get('/event/delete-event/:id', (req, res) => {
+router.get('/event/delete-event/:id', isAdmin, (req, res) => {
     let id = req.params.id
     Event.findByIdAndDelete(id).then((deleted) => {
         req.flash('success', 'an event page Deleted');

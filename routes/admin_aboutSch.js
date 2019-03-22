@@ -5,13 +5,15 @@ const { check, validationResult } = require('express-validator/check');
 const mkdirp = require('mkdirp')
 var fs = require('fs-extra');
 var resizeImg = require('resize-img');
+let auth = require('./../config/auth')
+const isAdmin = auth.isAdmin;
 
-router.get('/', (req, res) => {
+router.get('/', isAdmin, (req, res) => {
     res.send('index')
 
 })
 
-router.get('/about_school', (req, res) => {
+router.get('/about_school', isAdmin,  (req, res) => {
     NoteAboutSch.find({}).sort({ sorting: 1 }).exec((err, noteAbtSch) => {
         res.render('admin/noteAbtSch', {
             noteAbtSch
@@ -19,7 +21,7 @@ router.get('/about_school', (req, res) => {
     })
 })
 
-router.get('/about_school/add-noteAbtSch', (req, res) => {
+router.get('/about_school/add-noteAbtSch', isAdmin,  (req, res) => {
     let title = req.body.title
     let content = req.body.content
     let image = req.body.image
@@ -107,7 +109,7 @@ router.post('/reorder-noteAbtSch', (req, res) => {
 
 })
 
-router.get('/about_school/edit-noteAbtSch/:slug', (req, res) => {
+router.get('/about_school/edit-noteAbtSch/:slug', isAdmin,  (req, res) => {
     NoteAboutSch.findOne({ slug: req.params.slug }).then((noteAbtSch) => {
         res.render('admin/edit_noteAbtSch', {
             title: noteAbtSch.title,
@@ -166,7 +168,7 @@ router.post('/about_school/edit-noteAbtSch/:slug',
 
     });
 
-router.get('/about_school/delete-noteAbtSch/:id', (req, res) => {
+router.get('/about_school/delete-noteAbtSch/:id', isAdmin,  (req, res) => {
     let id = req.params.id
     NoteAboutSch.findByIdAndDelete(id).then((deleted) => {
         let path = 'public/images/aboutSchoolImages/' + id + '/' + deleted.image;

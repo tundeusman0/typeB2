@@ -11,8 +11,8 @@
 
                         <div><%- img.title %></div> &nbsp ~~ &nbsp
                         <div> <%- img.desc %></div> &nbsp
-                        from &nbsp <div><%= img.datefrom %></div> &nbsp
-                        to &nbsp<div><%= img.dateto %></div>
+                        from &nbsp <i> <div><%= img.datefrom %></div></i> &nbsp
+                        to &nbsp <i><div><%= img.dateto %></div></i>
 
                         </div>
                         <% }); %>
@@ -21,23 +21,8 @@
 
                 </div>
 
-                <div class="right-bar">
-                        <div class="footer2h">
-                        <h1>Explore @ <%= schTitle %> </h1>
-                        <br>
-                        <a href="/event"class="footer2" style="color:white;"><%= schTitle %> Events</a>
-                        <% explore.forEach(function(img){ %>
-                        <div class="footer2">
-                                <a href="/explore/<%= img.slug %>"><%= img.title %></a>
-                        </div>
-                        <% }); %>
-                        </div>
-                </div> 
-                        
-        </div>
+        <%- include('./attached.ejs') %>
 
-        <div id="news" style="margin-top:0;"><%- include('./news.ejs') %></div>
-        <div id="achievement"><%- include('./achievement.ejs') %></div>
 
 
 <%- include('../layout/footer.ejs') %>

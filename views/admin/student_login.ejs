@@ -1,0 +1,23 @@
+<%- include('../layout/admin_header.ejs') %>
+
+
+
+<form method="POST" action="/portal/login-student" enctype="multipart/form-data">
+    <div>
+        <label for="">Email</label>
+        <input type="text" name="email"  placeholder="email@email.com" />
+    </div>
+    <div>
+        <label for="">Matric Num</label>
+        <input type="text" name="id"  placeholder="Matric Num" />
+    </div>
+    <div>
+        <label for="">Password</label>
+        <input type="password" name="password" placeholder="password here" />
+    </div>
+    <button>Submit</button>
+</form>
+
+<div style="bottom:0;">
+<%- include('../layout/footer.ejs') %>
+</div>

@@ -5,13 +5,15 @@ const { check, validationResult } = require('express-validator/check');
 const mkdirp = require('mkdirp')
 var fs = require('fs-extra');
 var resizeImg = require('resize-img');
+let auth = require('./../config/auth')
+const isAdmin = auth.isAdmin
 
-router.get('/', (req, res) => {
+router.get('/', isAdmin, (req, res) => {
     res.send('index')
 
 })
 
-router.get('/achievements', (req, res) => {
+router.get('/achievements',isAdmin, (req, res) => {
     Achievements.find({}).sort({ sorting: 1 }).exec((err, achievements) => {
         res.render('admin/achievements', {
             achievements
@@ -19,7 +21,7 @@ router.get('/achievements', (req, res) => {
     })
 })
 
-router.get('/achievements/add-achievements', (req, res) => {
+router.get('/achievements/add-achievements',isAdmin, (req, res) => {
     let title = req.body.title
     let content = req.body.content
     let image = req.body.image
@@ -104,7 +106,7 @@ router.post('/reorder-achievements', (req, res) => {
 
 })
 
-router.get('/achievements/edit-achievements/:slug', (req, res) => {
+router.get('/achievements/edit-achievements/:slug',isAdmin, (req, res) => {
     Achievements.findOne({ slug: req.params.slug }).then((achievements) => {
         res.render('admin/edit_achievements', {
             title: achievements.title,
@@ -163,7 +165,7 @@ router.post('/achievements/edit-achievements/:slug',
 
     });
 
-router.get('/achievements/delete-achievements/:id', (req, res) => {
+router.get('/achievements/delete-achievements/:id',isAdmin, (req, res) => {
     let id = req.params.id
     Achievements.findByIdAndDelete(id).then((deleted) => {
         let path = 'public/images/achievementsImages/' + id + '/' + deleted.image;

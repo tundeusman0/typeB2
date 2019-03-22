@@ -37,6 +37,7 @@
                         <li>
                             <a href="/<%= page.slug %>" class="nav-link nav-link-ltr"><%= page.title %></a>
                         </li>
+
                         
                     <% } -%>
                 <% } -%>  
@@ -89,9 +90,27 @@
                         <a href="#">Link 3</a>
                     </div>
                 </li> -->
+
+                <%  if(user && user.admin === 1){ -%>
+
+                <li>
+                    <a href="/admin/logout" class="nav-link nav-link-ltr extraLink"><i class="fas fa-sign-out-alt"></i> <%= user.designation %> Logout</a>
+                </li>
+                <% } %>
+                <%  if(user && !user.admin){ -%>
+
+                <li>
+                    <a href="/admin/logout" class="nav-link nav-link-ltr extraLink"><i class="fas fa-sign-out-alt"></i> <%= user.designation %> Logout</a>
+                </li>
+                <% } %>
+                
+                   
+                
+
             </ul>
         </nav>
     </header>
+    
     <%- messages('messages', locals) %>
     <% if(errors) {%>
     <% errors.forEach(function(error){ -%>

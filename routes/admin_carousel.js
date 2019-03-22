@@ -5,13 +5,15 @@ const { check, validationResult } = require('express-validator/check');
 const mkdirp = require('mkdirp')
 var fs = require('fs-extra');
 var resizeImg = require('resize-img');
+let auth = require('./../config/auth')
+const isAdmin = auth.isAdmin
 
-router.get('/', (req, res) => {
+router.get('/', isAdmin, (req, res) => {
     res.send('index')
 
 })
 
-router.get('/carousel', (req, res) => {
+router.get('/carousel', isAdmin, (req, res) => {
     Carousel.find({}).sort({sorting:1}).exec((err,carousel)=>{
         res.render('admin/carousel', {
             carousel
@@ -19,7 +21,7 @@ router.get('/carousel', (req, res) => {
     })
 })
 
-router.get('/carousel/add-carousel', (req, res) => {
+router.get('/carousel/add-carousel', isAdmin, (req, res) => {
     let title = req.body.title
     let image = req.body.image
     let desc = req.body.desc
@@ -100,7 +102,7 @@ router.post('/reorder-carousel', (req,res) => {
       
 })
         
-router.get('/carousel/edit-carousel/:slug', (req, res) => {
+router.get('/carousel/edit-carousel/:slug',isAdmin, (req, res) => {
     Carousel.findOne({ slug: req.params.slug }).then((carousel) => {
         res.render('admin/edit_carousel', {
             title: carousel.title,
@@ -158,7 +160,7 @@ router.post('/carousel/edit-carousel/:slug',
 
 });
 
-router.get('/carousel/delete-carousel/:id', (req, res) => {
+router.get('/carousel/delete-carousel/:id',isAdmin, (req, res) => {
     let id = req.params.id
     Carousel.findByIdAndDelete(id).then((deleted) => {
         let path = 'public/images/carouselImages/' + id + '/' + deleted.image;
